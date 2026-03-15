@@ -16,20 +16,17 @@
             --dark: #333333;
             --light: #F8F9FA;
             --success: #28A745;
-            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
+            background-color: #ECECEC;
             margin: 0;
             padding: 10px; 
             color: var(--dark);
-            min-height: 100vh;
         }
         
         /* --- TELA DE LOGIN CENTRALIZADA --- */
-        #tela-login {
+        #wrapper-login {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -42,18 +39,10 @@
             background: white; 
             border-radius: 15px;
             text-align: center; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        .logo-renner {
-            color: var(--primary);
-            font-weight: 900;
-            font-size: 48px;
-            letter-spacing: -2px;
-            margin-bottom: 5px;
-            display: block;
-            font-family: 'Arial Black', sans-serif;
-        }
-        .login-box h2 { color: #555; margin-top: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; }
+        .login-box img { margin-bottom: 20px; }
+        .login-box h2 { color: var(--dark); margin-top: 0; font-size: 18px; text-transform: uppercase; margin-bottom: 20px; }
         .login-box input {
             width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px;
             border: 1px solid #ddd; box-sizing: border-box; font-size: 15px;
@@ -65,66 +54,56 @@
 
         /* --- SISTEMA PRINCIPAL --- */
         .container {
-            max-width: 900px; margin: 20px auto; background: white; padding: 20px; 
-            border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            max-width: 900px; margin: 0 auto; background: white; padding: 15px; 
+            border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .header-top {
-            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px;
         }
-        .header-info h1 { margin: 0; font-size: 22px; color: var(--primary); }
-        .btn-sair {
-            background-color: var(--dark); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold;
-        }
-        p.subtitle { text-align: center; color: #888; margin-top: 0; margin-bottom: 25px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        .header-top h1 { margin: 0; font-size: 22px; color: var(--primary); }
+        .btn-sair { background-color: var(--dark); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         
-        .dashboard { display: flex; gap: 15px; margin-bottom: 25px; }
+        p.subtitle { text-align: center; color: #777; margin-top: 0; margin-bottom: 20px; font-size: 14px; }
+        
+        .dashboard { display: flex; gap: 10px; margin-bottom: 20px; }
         .card {
-            flex: 1; background: #fff; padding: 15px; border-radius: 10px;
-            text-align: center; border: 1px solid #eee; border-top: 4px solid var(--primary);
+            flex: 1; background: var(--light); padding: 12px; border-radius: 8px;
+            text-align: center; border-left: 5px solid var(--primary);
         }
-        .card.green { border-top-color: var(--success); }
-        .card h3 { margin: 0; font-size: 12px; color: #888; text-transform: uppercase; }
-        .card p { margin: 10px 0 0 0; font-size: 24px; font-weight: bold; }
-        
+        .card.green { border-left-color: var(--success); }
+        .card h3 { margin: 0; font-size: 13px; color: #555; }
+        .card p { margin: 8px 0 0 0; font-size: 20px; font-weight: bold; }
+
+        /* GRÁFICO ESCONDIDO (SÓ PARA O PDF) */
+        #container-grafico-oculto { position: absolute; left: -9999px; top: 0; width: 600px; height: 300px; }
+
         form {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: var(--light);
-            padding: 20px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #eee;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--light);
+            padding: 15px; border-radius: 8px; margin-bottom: 20px;
         }
         .full-width { grid-column: span 2; }
-        label { font-size: 12px; font-weight: bold; display: block; margin-bottom: 5px; color: #555; text-transform: uppercase; }
-        input, select {
-            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px;
-            box-sizing: border-box; font-size: 14px; background: #fff;
-        }
-        input:disabled { background-color: #f0f0f0; }
+        label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 3px; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
+        input:disabled { background-color: #e9ecef; }
         
         form button[type="submit"] {
             grid-column: span 2; background-color: var(--primary); color: white; border: none;
-            padding: 15px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer;
+            padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer;
         }
 
-        /* --- GRÁFICO VISÍVEL NO SISTEMA --- */
-        .chart-container {
-            margin-bottom: 30px;
-            padding: 15px;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            background: #fff;
-        }
-
-        .table-container { width: 100%; overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid #eee; }
-        table { width: 100%; border-collapse: collapse; min-width: 650px; }
-        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
-        th { background-color: #f8f9fa; color: #666; font-weight: bold; text-transform: uppercase; font-size: 11px; }
-        .delete-btn { color: #ff4d4d; border: 1px solid #ff4d4d; background: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
+        .table-container { width: 100%; overflow-x: auto; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; font-size: 13px; }
+        th { background-color: var(--dark); color: white; }
+        .delete-btn { background-color: #ff4d4d; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; }
 
         .pdf-btn { 
-            background-color: var(--dark); margin-top: 30px; width: 100%; padding: 16px; font-size: 15px; 
-            color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;
+            background-color: var(--dark); margin-top: 25px; width: 100%; padding: 15px; font-size: 16px; 
+            color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;
         }
 
         @media (max-width: 600px) {
-            .dashboard { flex-direction: column; }
+            .dashboard { flex-direction: column; gap: 8px; }
             form { grid-template-columns: 1fr; } 
             .full-width, form button[type="submit"] { grid-column: span 1; }
         }
@@ -132,33 +111,28 @@
 </head>
 <body>
 
-<div id="tela-login">
+<div id="wrapper-login">
     <div class="login-box">
-        <span class="logo-renner">RENNER</span>
-        <h2>Radar de Prevenção</h2>
-        <p style="color: #888; font-size: 13px; margin-bottom: 25px;">Acesso Restrito - Loja 482</p>
-        
-        <input type="email" id="email-login" placeholder="E-mail" required>
-        <input type="password" id="senha-login" placeholder="Senha" required>
-        <button id="btn-entrar" class="btn-entrar">Entrar no Sistema</button>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Lojas_Renner_logo.svg/2560px-Lojas_Renner_logo.svg.png" width="180" alt="Renner">
+        <h2>Acesso ao Sistema</h2>
+        <input type="email" id="email-login" placeholder="E-mail">
+        <input type="password" id="senha-login" placeholder="Senha">
+        <button id="btn-entrar" class="btn-entrar">Entrar no Radar</button>
         <p id="erro-login" style="color: var(--primary); display: none; font-weight: bold; margin-top: 15px; font-size: 13px;"></p>
     </div>
 </div>
 
 <div id="sistema-principal" class="container" style="display: none;">
     <div class="header-top">
-        <div class="header-info">
-            <h1>Radar de Prevenção 482</h1>
-            <p id="txt-boas-vindas" style="margin:0; font-size: 14px; color: #666;"></p>
-        </div>
-        <button id="btn-sair" class="btn-sair">Sair do Radar</button>
+        <h1>Radar de Prevenção - Loja 482</h1>
+        <button id="btn-sair" class="btn-sair">Sair</button>
     </div>
     
     <p class="subtitle">Controle de RFID Violado - Operação</p>
 
     <form id="rfidForm">
         <div>
-            <label>Fiscal Responsável</label>
+            <label>Fiscal em Operação</label>
             <input type="text" id="fiscalLogado" disabled>
         </div>
         <div>
@@ -181,7 +155,7 @@
             <input type="number" id="sku" placeholder="Ex: 552664497" required>
         </div>
         <div>
-            <label>Valor da Peça (R$)</label>
+            <label>Valor (R$)</label>
             <input type="text" id="valor" placeholder="0,00" oninput="formatarMoeda(this)" required>
         </div>
         <div class="full-width">
@@ -193,21 +167,16 @@
 
     <div class="dashboard">
         <div class="card">
-            <h3>Peças Mapeadas</h3>
+            <h3>Total no Período</h3>
             <p id="totalItems">0</p>
         </div>
         <div class="card green">
-            <h3>Prejuízo Total</h3>
+            <h3>Prejuízo Mapeado (R$)</h3>
             <p id="totalValue">R$ 0,00</p>
         </div>
     </div>
 
-    <div class="chart-container">
-        <h3 style="font-size: 14px; text-transform: uppercase; color: #666; margin-bottom: 15px;">Valores por Setor</h3>
-        <canvas id="graficoSetor" style="max-height: 300px; width: 100%;"></canvas>
-    </div>
-
-    <h3 style="font-size: 14px; text-transform: uppercase; color: #666;">Histórico de Ocorrências</h3>
+    <h3>Histórico de Ocorrências</h3>
     <div class="table-container">
         <table>
             <thead>
@@ -224,7 +193,11 @@
         </table>
     </div>
 
-    <button type="button" id="btn-pdf" class="pdf-btn">📄 Exportar Relatório Analítico (PDF)</button>
+    <button type="button" id="btn-pdf" class="pdf-btn">📄 Exportar Relatório PDF com Gráfico</button>
+
+    <div id="container-grafico-oculto">
+        <canvas id="graficoSetor"></canvas>
+    </div>
 </div>
 
 <script type="module">
@@ -246,20 +219,17 @@
     const auth = getAuth(app);
 
     let ocorrenciasGlobais = [];
-    let meuGrafico = null;
 
     // --- AUTENTICAÇÃO ---
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            document.getElementById('tela-login').style.display = 'none';
+            document.getElementById('wrapper-login').style.display = 'none';
             document.getElementById('sistema-principal').style.display = 'block';
             let nome = user.email.split('@')[0];
-            nome = nome.charAt(0).toUpperCase() + nome.slice(1);
-            document.getElementById('fiscalLogado').value = nome;
-            document.getElementById('txt-boas-vindas').innerText = "Olá, " + nome + "!";
+            document.getElementById('fiscalLogado').value = nome.charAt(0).toUpperCase() + nome.slice(1);
             ouvirBanco();
         } else {
-            document.getElementById('tela-login').style.display = 'flex';
+            document.getElementById('wrapper-login').style.display = 'flex';
             document.getElementById('sistema-principal').style.display = 'none';
         }
     });
@@ -268,15 +238,14 @@
         const email = document.getElementById('email-login').value;
         const senha = document.getElementById('senha-login').value;
         signInWithEmailAndPassword(auth, email, senha).catch(() => {
-            const erro = document.getElementById('erro-login');
-            erro.style.display = 'block';
-            erro.innerText = "E-mail ou senha incorretos!";
+            document.getElementById('erro-login').style.display = 'block';
+            document.getElementById('erro-login').innerText = "E-mail ou senha incorretos!";
         });
     });
 
     document.getElementById('btn-sair').addEventListener('click', () => { signOut(auth); });
 
-    // --- FORMULÁRIO ---
+    // --- REGISTRO ---
     window.formatarMoeda = (el) => {
         let v = el.value.replace(/\D/g, "");
         if (v === "") return;
@@ -290,7 +259,7 @@
         e.preventDefault();
         const btn = document.getElementById('btn-registrar');
         btn.disabled = true;
-        btn.innerText = "Salvando...";
+        btn.innerText = "Registrando...";
 
         const valorLimpo = document.getElementById('valor').value.replace(/\./g, "").replace(",", ".");
         
@@ -306,18 +275,17 @@
             });
             document.getElementById('rfidForm').reset();
             document.getElementById('data').valueAsDate = new Date();
-            // Repreenche o fiscal que o reset limpou
             let nome = auth.currentUser.email.split('@')[0];
             document.getElementById('fiscalLogado').value = nome.charAt(0).toUpperCase() + nome.slice(1);
         } catch (err) {
-            alert("Erro ao registrar no banco de dados.");
+            alert("Erro ao salvar.");
         } finally {
             btn.disabled = false;
             btn.innerText = "Registrar Ocorrência";
         }
     });
 
-    // --- ATUALIZAÇÃO EM TEMPO REAL ---
+    // --- ATUALIZAÇÃO EM TEMPO REAL (SEM RELOAD) ---
     function ouvirBanco() {
         const q = query(collection(db, "ocorrencias"), orderBy("data", "desc"));
         onSnapshot(q, (snapshot) => {
@@ -338,81 +306,85 @@
                         <td>${item.setor}</td>
                         <td>${item.sku} - ${item.descricao}</td>
                         <td>R$ ${item.valor.toFixed(2).replace('.', ',')}</td>
-                        <td><button class="delete-btn" onclick="window.deletar('${item.id}')">Excluir</button></td>
+                        <td><button class="delete-btn" onclick="window.deletarRegistro('${item.id}')">Excluir</button></td>
                     </tr>
                 `;
             });
 
             document.getElementById('totalItems').innerText = ocorrenciasGlobais.length;
             document.getElementById('totalValue').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
-            atualizarGrafico();
         });
     }
 
-    window.deletar = async (id) => {
-        if(confirm("Confirmar exclusão desta ocorrência?")) {
-            await deleteDoc(doc(db, "ocorrencias", id));
-        }
+    window.deletarRegistro = async (id) => {
+        if(confirm("Confirmar exclusão?")) { await deleteDoc(doc(db, "ocorrencias", id)); }
     };
 
-    // --- GRÁFICO ---
-    function atualizarGrafico() {
+    // --- EXPORTAR PDF (GERA O GRÁFICO SÓ AQUI) ---
+    document.getElementById('btn-pdf').addEventListener('click', () => {
+        if(ocorrenciasGlobais.length === 0) return alert("Sem dados.");
+
+        // Criar o gráfico no canvas oculto antes de gerar o PDF
         const dadosSetor = {};
-        ocorrenciasGlobais.forEach(item => {
-            dadosSetor[item.setor] = (dadosSetor[item.setor] || 0) + item.valor;
-        });
+        ocorrenciasGlobais.forEach(item => { dadosSetor[item.setor] = (dadosSetor[item.setor] || 0) + item.valor; });
 
-        const ctx = document.getElementById('graficoSetor').getContext('2d');
-        if (meuGrafico) meuGrafico.destroy();
+        const canvas = document.getElementById('graficoSetor');
+        const ctx = canvas.getContext('2d');
+        
+        // Se já houver um gráfico no canvas, ele será destruído para criar um novo
+        if (window.meuGraficoPDF) window.meuGraficoPDF.destroy();
 
-        meuGrafico = new Chart(ctx, {
+        window.meuGraficoPDF = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: Object.keys(dadosSetor),
                 datasets: [{
-                    label: 'Prejuízo (R$)',
+                    label: 'Prejuízo por Setor (R$)',
                     data: Object.values(dadosSetor),
-                    backgroundColor: '#E30014',
-                    borderRadius: 5
+                    backgroundColor: '#E30014'
                 }]
             },
             options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true } }
+                responsive: false,
+                animation: false,
+                plugins: { legend: { display: false } }
             }
         });
-    }
 
-    // --- PDF ---
-    document.getElementById('btn-pdf').addEventListener('click', () => {
-        if(ocorrenciasGlobais.length === 0) return alert("Sem dados para exportar.");
+        // Esperar um instante para o gráfico renderizar no canvas oculto
+        setTimeout(() => {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+            
+            pdf.setFontSize(18);
+            pdf.setTextColor(227, 0, 20);
+            pdf.text("RADAR DE PREVENÇÃO - LOJA 482", 14, 20);
+            
+            const colunas = ["Data", "Fiscal", "Setor", "SKU / Descrição", "Valor"];
+            const linhas = ocorrenciasGlobais.map(item => [
+                item.data.split('-').reverse().join('/'),
+                item.fiscal,
+                item.setor,
+                `${item.sku} - ${item.descricao}`,
+                `R$ ${item.valor.toFixed(2).replace('.', ',')}`
+            ]);
 
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF();
-        
-        pdf.setFontSize(18);
-        pdf.setTextColor(227, 0, 20);
-        pdf.text("RADAR DE PREVENÇÃO - LOJA 482", 14, 20);
-        
-        const colunas = ["Data", "Fiscal", "Setor", "SKU / Descrição", "Valor"];
-        const linhas = ocorrenciasGlobais.map(item => [
-            item.data.split('-').reverse().join('/'),
-            item.fiscal,
-            item.setor,
-            `${item.sku} - ${item.descricao}`,
-            `R$ ${item.valor.toFixed(2).replace('.', ',')}`
-        ]);
+            pdf.autoTable({
+                startY: 30,
+                head: [colunas],
+                body: linhas,
+                theme: 'striped',
+                headStyles: { fillColor: [51, 51, 51] }
+            });
 
-        pdf.autoTable({
-            startY: 30,
-            head: [colunas],
-            body: linhas,
-            theme: 'striped',
-            headStyles: { fillColor: [51, 51, 51] }
-        });
+            // Adicionar o gráfico na segunda página do PDF
+            const imgData = canvas.toDataURL("image/png", 1.0);
+            pdf.addPage();
+            pdf.text("ANÁLISE DE PERDAS POR SETOR", 14, 20);
+            pdf.addImage(imgData, 'PNG', 15, 30, 180, 90);
 
-        pdf.save(`Relatorio_Radar_482.pdf`);
+            pdf.save(`Relatorio_Radar_482.pdf`);
+        }, 500);
     });
 </script>
 </body>
