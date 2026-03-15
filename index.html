@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <title>Radar de Prevenção - Loja 482</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -13,107 +12,351 @@
     <style>
         :root {
             --primary: #E30014; 
-            --dark: #1a1a1a;
+            --dark: #121212;
             --light: #F8F9FA;
-            --success: #28A745; /* Verde para o botão de PDF */
+            --success: #28A745; /* Verde solicitado */
         }
         
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background-color: #ECECEC;
+            margin: 0; padding: 0; min-height: 100vh;
+            background-color: #f0f0f0;
         }
 
-        /* --- TELA DE LOGIN REFINADA COM FUNDO DE SEGURANÇA --- */
+        /* --- LOGIN SOFISTICADO COM TRANSPARÊNCIA --- */
         #wrapper-login {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            /* Imagem de fundo focada em segurança/tecnologia */
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-                        url('https://images.unsplash.com/photo-1557597774-9d2739f85a76?auto=format&fit=crop&q=80&w=1600');
-            background-size: cover;
-            background-position: center;
+            display: flex; align-items: center; justify-content: center; min-height: 100vh;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            position: fixed; width: 100%; top: 0; left: 0; z-index: 9999;
         }
 
         .login-box {
-            width: 100%;
-            max-width: 380px; 
-            padding: 50px 40px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            width: 90%; max-width: 380px; padding: 50px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.4);
         }
 
         .login-box h2 { 
-            color: #fff; 
-            margin-top: 0; 
-            font-size: 24px; 
-            font-weight: 300; 
-            text-transform: uppercase; 
-            letter-spacing: 6px; 
-            margin-bottom: 35px; 
+            color: #fff; margin-top: 0; font-size: 22px; font-weight: 300; 
+            text-transform: uppercase; letter-spacing: 5px; margin-bottom: 35px; 
         }
 
         .login-box input {
-            width: 100%; 
-            padding: 14px; 
-            margin: 12px 0; 
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.3); 
-            background: rgba(0, 0, 0, 0.2);
-            box-sizing: border-box; 
-            font-size: 15px;
-            color: #fff;
-            outline: none;
+            width: 100%; padding: 14px; margin: 12px 0; border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(0, 0, 0, 0.2);
+            box-sizing: border-box; font-size: 15px; color: #fff; outline: none;
         }
 
-        .login-box input::placeholder { color: rgba(255, 255, 255, 0.5); }
+        .login-box input::placeholder { color: rgba(255, 255, 255, 0.4); }
 
         .btn-entrar {
-            width: 100%; 
-            padding: 15px; 
-            background: #fff; 
-            color: #1a1a1a;
-            border: none; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 20px;
-            transition: all 0.3s ease;
+            width: 100%; padding: 15px; background: #fff; color: #1a1a1a;
+            border: none; border-radius: 10px; cursor: pointer; font-weight: bold; 
+            text-transform: uppercase; letter-spacing: 1px; margin-top: 25px; transition: 0.3s;
         }
 
-        .btn-entrar:hover { background: var(--light); transform: translateY(-2px); }
+        .btn-entrar:hover { background: #e0e0e0; transform: translateY(-2px); }
 
         /* --- SISTEMA PRINCIPAL --- */
         .container {
-            max-width: 900px; 
-            margin: 20px auto; 
-            background: white; 
-            padding: 20px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 900px; margin: 20px auto; background: white; padding: 20px; 
+            border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: none;
         }
 
         .header-top {
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-bottom: 2px solid var(--primary); 
-            padding-bottom: 15px; 
-            margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center; 
+            border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 20px;
         }
 
-        .header-top h1 { margin: 0; font-size: 22px; color: var(--primary); }
+        .header-top h1 { margin: 0; font-size: 20px; color: var(--primary); }
 
         .btn-sair { 
-            background-color
+            background: var(--dark); color: white; border: none; padding: 8px 15px; 
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px;
+        }
+
+        p.subtitle { text-align: center; color: #777; margin-top: 0; margin-bottom: 20px; font-size: 14px; }
+
+        .dashboard { display: flex; gap: 15px; margin-bottom: 25px; }
+
+        .card {
+            flex: 1; background: var(--light); padding: 15px; border-radius: 10px;
+            text-align: center; border-left: 5px solid var(--primary);
+        }
+
+        .card.green { border-left-color: var(--success); }
+        .card h3 { margin: 0; font-size: 12px; color: #555; text-transform: uppercase; }
+        .card p { margin: 8px 0 0 0; font-size: 24px; font-weight: bold; }
+
+        form {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: var(--light);
+            padding: 20px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #eee;
+        }
+
+        .full-width { grid-column: span 2; }
+        label { font-size: 12px; font-weight: bold; display: block; margin-bottom: 5px; color: #555; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        input:disabled { background-color: #e9ecef; }
+
+        form button[type="submit"] {
+            grid-column: span 2; background-color: var(--primary); color: white; border: none;
+            padding: 15px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer;
+        }
+
+        .table-container { width: 100%; overflow-x: auto; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; min-width: 650px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+        th { background-color: var(--dark); color: white; font-size: 11px; text-transform: uppercase; }
+
+        .delete-btn { color: #ff4d4d; border: 1px solid #ff4d4d; background: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+
+        /* BOTÃO EXPORTAR VERDE */
+        .pdf-btn { 
+            background-color: var(--success); margin-top: 30px; width: 100%; padding: 18px; 
+            font-size: 16px; color: white; border: none; border-radius: 8px; font-weight: bold; 
+            cursor: pointer; text-transform: uppercase; transition: 0.3s;
+        }
+        .pdf-btn:hover { background-color: #218838; }
+
+        /* GRÁFICO SÓ PARA O PDF */
+        #container-grafico-oculto { position: absolute; left: -9999px; top: 0; width: 600px; height: 300px; }
+
+        @media (max-width: 600px) {
+            .dashboard { flex-direction: column; }
+            form { grid-template-columns: 1fr; } 
+            .full-width, form button[type="submit"] { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="wrapper-login">
+    <div class="login-box">
+        <h2>ACESSO</h2>
+        <input type="email" id="email-login" placeholder="E-mail">
+        <input type="password" id="senha-login" placeholder="Senha">
+        <button id="btn-entrar" class="btn-entrar">Entrar no Radar</button>
+        <p id="erro-login" style="color: #ff4d4d; display: none; font-weight: bold; margin-top: 15px; font-size: 13px;"></p>
+    </div>
+</div>
+
+<div id="sistema-principal" class="container">
+    <div class="header-top">
+        <h1>Radar Loja 482</h1>
+        <button id="btn-sair" class="btn-sair">SAIR</button>
+    </div>
+    
+    <p class="subtitle">Controle de RFID Violado - Operação</p>
+
+    <form id="rfidForm">
+        <div>
+            <label>Fiscal Responsável</label>
+            <input type="text" id="fiscalLogado" disabled>
+        </div>
+        <div>
+            <label>Data</label>
+            <input type="date" id="data" required>
+        </div>
+        <div class="full-width">
+            <label>Setor/Localização</label>
+            <select id="setor" required>
+                <option value="">Selecione...</option>
+                <option value="Provador Feminino">Provador Feminino</option>
+                <option value="Provador Masculino">Provador Masculino</option>
+                <option value="Salão de Vendas">Salão de Vendas</option>
+                <option value="Retaguarda">Retaguarda</option>
+                <option value="Outros">Outros</option>
+            </select>
+        </div>
+        <div>
+            <label>Código SKU</label>
+            <input type="number" id="sku" placeholder="Ex: 552664497" required>
+        </div>
+        <div>
+            <label>Valor da Peça (R$)</label>
+            <input type="text" id="valor" placeholder="0,00" oninput="formatarMoeda(this)" required>
+        </div>
+        <div class="full-width">
+            <label>Descrição da Peça</label>
+            <input type="text" id="descricao" placeholder="Ex: Calça Denim J" required>
+        </div>
+        <button type="submit" id="btn-registrar">Registrar Ocorrência</button>
+    </form>
+
+    <div class="dashboard">
+        <div class="card">
+            <h3>Peças Mapeadas</h3>
+            <p id="totalItems">0</p>
+        </div>
+        <div class="card green">
+            <h3>Prejuízo Total</h3>
+            <p id="totalValue">R$ 0,00</p>
+        </div>
+    </div>
+
+    <h3>Histórico</h3>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Fiscal</th>
+                    <th>Setor</th>
+                    <th>SKU / Descrição</th>
+                    <th>Valor</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaCorpo"></tbody>
+        </table>
+    </div>
+
+    <button type="button" id="btn-pdf" class="pdf-btn">EXPORTAR EM PDF</button>
+
+    <div id="container-grafico-oculto">
+        <canvas id="graficoSetor"></canvas>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAJrbK-tCGHdrX71zD_xUxmISCZbsESW5I",
+      authDomain: "radarloja482.firebaseapp.com",
+      projectId: "radarloja482",
+      storageBucket: "radarloja482.firebasestorage.app",
+      messagingSenderId: "342229469819",
+      appId: "1:342229469819:web:491c83eb4a4d61fe0270de"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let ocorrenciasGlobais = [];
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            document.getElementById('wrapper-login').style.display = 'none';
+            document.getElementById('sistema-principal').style.display = 'block';
+            let nome = user.email.split('@')[0];
+            document.getElementById('fiscalLogado').value = nome.charAt(0).toUpperCase() + nome.slice(1);
+            carregarDados();
+        } else {
+            document.getElementById('wrapper-login').style.display = 'flex';
+            document.getElementById('sistema-principal').style.display = 'none';
+        }
+    });
+
+    document.getElementById('btn-entrar').addEventListener('click', () => {
+        const email = document.getElementById('email-login').value;
+        const senha = document.getElementById('senha-login').value;
+        if(!email || !senha) return;
+        signInWithEmailAndPassword(auth, email, senha).catch(() => {
+            document.getElementById('erro-login').style.display = 'block';
+            document.getElementById('erro-login').innerText = "Credenciais Inválidas!";
+        });
+    });
+
+    document.getElementById('btn-sair').addEventListener('click', () => { signOut(auth); });
+
+    window.formatarMoeda = (el) => {
+        let v = el.value.replace(/\D/g, "");
+        if (v === "") return;
+        v = (parseInt(v, 10) / 100).toFixed(2);
+        el.value = v.replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+    };
+
+    document.getElementById('data').valueAsDate = new Date();
+
+    document.getElementById('rfidForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('btn-registrar');
+        btn.disabled = true; btn.innerText = "Salvando...";
+        const valorLimpo = document.getElementById('valor').value.replace(/\./g, "").replace(",", ".");
+        try {
+            await addDoc(collection(db, "ocorrencias"), {
+                fiscal: document.getElementById('fiscalLogado').value,
+                setor: document.getElementById('setor').value,
+                sku: document.getElementById('sku').value,
+                descricao: document.getElementById('descricao').value,
+                valor: parseFloat(valorLimpo),
+                data: document.getElementById('data').value,
+                timestamp: Date.now()
+            });
+            document.getElementById('rfidForm').reset();
+            document.getElementById('data').valueAsDate = new Date();
+            let nome = auth.currentUser.email.split('@')[0];
+            document.getElementById('fiscalLogado').value = nome.charAt(0).toUpperCase() + nome.slice(1);
+        } catch (err) { alert("Erro ao salvar."); } 
+        finally { btn.disabled = false; btn.innerText = "Registrar Ocorrência"; }
+    });
+
+    function carregarDados() {
+        const q = query(collection(db, "ocorrencias"), orderBy("data", "desc"));
+        onSnapshot(q, (snapshot) => {
+            ocorrenciasGlobais = [];
+            const tbody = document.getElementById('tabelaCorpo');
+            tbody.innerHTML = '';
+            let total = 0;
+            snapshot.forEach((docSnap) => {
+                const item = { id: docSnap.id, ...docSnap.data() };
+                ocorrenciasGlobais.push(item);
+                total += item.valor;
+                tbody.innerHTML += `<tr>
+                    <td>${item.data.split('-').reverse().join('/')}</td>
+                    <td><strong>${item.fiscal}</strong></td>
+                    <td>${item.setor}</td>
+                    <td>${item.sku} - ${item.descricao}</td>
+                    <td>R$ ${item.valor.toFixed(2).replace('.', ',')}</td>
+                    <td><button class="delete-btn" onclick="window.deletarRegistro('${item.id}')">Excluir</button></td>
+                </tr>`;
+            });
+            document.getElementById('totalItems').innerText = ocorrenciasGlobais.length;
+            document.getElementById('totalValue').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        });
+    }
+
+    window.deletarRegistro = async (id) => {
+        if(confirm("Apagar registro?")) { await deleteDoc(doc(db, "ocorrencias", id)); }
+    };
+
+    document.getElementById('btn-pdf').addEventListener('click', () => {
+        if(ocorrenciasGlobais.length === 0) return alert("Sem dados.");
+        const dadosSetor = {};
+        ocorrenciasGlobais.forEach(item => { dadosSetor[item.setor] = (dadosSetor[item.setor] || 0) + item.valor; });
+        const canvas = document.getElementById('graficoSetor');
+        const ctx = canvas.getContext('2d');
+        if (window.meuGrafico) window.meuGrafico.destroy();
+        window.meuGrafico = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(dadosSetor),
+                datasets: [{ label: 'Prejuízo (R$)', data: Object.values(dadosSetor), backgroundColor: '#E30014' }]
+            },
+            options: { responsive: false, animation: false, plugins: { legend: { display: false } } }
+        });
+        setTimeout(() => {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+            pdf.setFontSize(18); pdf.setTextColor(227, 0, 20); pdf.text("RELATÓRIO DE PERDAS - LOJA 482", 14, 20);
+            const colunas = ["Data", "Fiscal", "Setor", "SKU / Descrição", "Valor"];
+            const linhas = ocorrenciasGlobais.map(item => [
+                item.data.split('-').reverse().join('/'),
+                item.fiscal, item.setor, `${item.sku} - ${item.descricao}`,
+                `R$ ${item.valor.toFixed(2).replace('.', ',')}`
+            ]);
+            pdf.autoTable({ startY: 30, head: [colunas], body: linhas, theme: 'striped', headStyles: { fillColor: [51, 51, 51] } });
+            pdf.addPage(); pdf.text("ANÁLISE POR SETOR", 14, 20);
+            pdf.addImage(canvas.toDataURL("image/png"), 'PNG', 15, 30, 180, 90);
+            pdf.save(`Relatorio_Radar_482.pdf`);
+        }, 500);
+    });
+</script>
+</body>
+</html>
