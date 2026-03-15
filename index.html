@@ -26,43 +26,40 @@
             padding: 10px; 
             color: var(--dark);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
         
-        /* --- AJUSTE TELA DE LOGIN --- */
+        /* --- TELA DE LOGIN CENTRALIZADA --- */
         #tela-login {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            flex-grow: 1;
+            min-height: 90vh;
         }
         .login-box {
             width: 100%;
-            max-width: 380px; 
-            padding: 40px;
+            max-width: 400px; 
+            padding: 40px 30px;
             background: white; 
             border-radius: 15px;
             text-align: center; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         .logo-renner {
             color: var(--primary);
-            font-size: 42px;
             font-weight: 900;
+            font-size: 48px;
             letter-spacing: -2px;
             margin-bottom: 5px;
             display: block;
-            font-family: Arial Black, sans-serif;
+            font-family: 'Arial Black', sans-serif;
         }
-        .login-box h2 { color: #555; margin-top: 0; font-size: 16px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; }
+        .login-box h2 { color: #555; margin-top: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; }
         .login-box input {
-            width: 100%; padding: 14px; margin: 10px 0; border-radius: 8px;
-            border: 1px solid #ddd; box-sizing: border-box; font-size: 16px;
+            width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px;
+            border: 1px solid #ddd; box-sizing: border-box; font-size: 15px;
         }
         .btn-entrar {
-            width: 100%; padding: 15px; background: var(--primary); color: white;
+            width: 100%; padding: 14px; background: var(--primary); color: white;
             border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 15px;
         }
 
@@ -70,13 +67,15 @@
         .container {
             max-width: 900px; margin: 20px auto; background: white; padding: 20px; 
             border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            width: 95%;
         }
         .header-top {
             display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 20px;
         }
-        .header-info h1 { margin: 0; font-size: 20px; color: var(--primary); }
-        .btn-sair { background-color: var(--dark); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .header-info h1 { margin: 0; font-size: 22px; color: var(--primary); }
+        .btn-sair {
+            background-color: var(--dark); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold;
+        }
+        p.subtitle { text-align: center; color: #888; margin-top: 0; margin-bottom: 25px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
         
         .dashboard { display: flex; gap: 15px; margin-bottom: 25px; }
         .card {
@@ -89,11 +88,14 @@
         
         form {
             display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: var(--light);
-            padding: 20px; border-radius: 10px; margin-bottom: 25px;
+            padding: 20px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #eee;
         }
         .full-width { grid-column: span 2; }
-        label { font-size: 12px; font-weight: bold; margin-bottom: 5px; display: block; color: #666; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        label { font-size: 12px; font-weight: bold; display: block; margin-bottom: 5px; color: #555; text-transform: uppercase; }
+        input, select {
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px;
+            box-sizing: border-box; font-size: 14px; background: #fff;
+        }
         input:disabled { background-color: #f0f0f0; }
         
         form button[type="submit"] {
@@ -101,23 +103,30 @@
             padding: 15px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer;
         }
 
-        .table-container { width: 100%; overflow-x: auto; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
-        th { background-color: #f8f9fa; color: #666; font-size: 11px; text-transform: uppercase; }
-        .delete-btn { color: #ff4d4d; border: 1px solid #ff4d4d; background: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+        /* --- GRÁFICO VISÍVEL NO SISTEMA --- */
+        .chart-container {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .table-container { width: 100%; overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid #eee; }
+        table { width: 100%; border-collapse: collapse; min-width: 650px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+        th { background-color: #f8f9fa; color: #666; font-weight: bold; text-transform: uppercase; font-size: 11px; }
+        .delete-btn { color: #ff4d4d; border: 1px solid #ff4d4d; background: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
 
         .pdf-btn { 
-            background-color: var(--dark); margin-top: 20px; width: 100%; padding: 16px; 
+            background-color: var(--dark); margin-top: 30px; width: 100%; padding: 16px; font-size: 15px; 
             color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;
         }
 
-        .chart-box { width: 100%; height: 300px; margin-top: 20px; display: none; }
-
         @media (max-width: 600px) {
             .dashboard { flex-direction: column; }
-            form { grid-template-columns: 1fr; }
-            .full-width { grid-column: span 1; }
+            form { grid-template-columns: 1fr; } 
+            .full-width, form button[type="submit"] { grid-column: span 1; }
         }
     </style>
 </head>
@@ -127,9 +136,11 @@
     <div class="login-box">
         <span class="logo-renner">RENNER</span>
         <h2>Radar de Prevenção</h2>
-        <input type="email" id="email-login" placeholder="E-mail">
-        <input type="password" id="senha-login" placeholder="Senha">
-        <button id="btn-entrar" class="btn-entrar">Acessar Sistema</button>
+        <p style="color: #888; font-size: 13px; margin-bottom: 25px;">Acesso Restrito - Loja 482</p>
+        
+        <input type="email" id="email-login" placeholder="E-mail" required>
+        <input type="password" id="senha-login" placeholder="Senha" required>
+        <button id="btn-entrar" class="btn-entrar">Entrar no Sistema</button>
         <p id="erro-login" style="color: var(--primary); display: none; font-weight: bold; margin-top: 15px; font-size: 13px;"></p>
     </div>
 </div>
@@ -137,15 +148,17 @@
 <div id="sistema-principal" class="container" style="display: none;">
     <div class="header-top">
         <div class="header-info">
-            <h1>Radar Loja 482</h1>
+            <h1>Radar de Prevenção 482</h1>
             <p id="txt-boas-vindas" style="margin:0; font-size: 14px; color: #666;"></p>
         </div>
-        <button id="btn-sair" class="btn-sair">Sair</button>
+        <button id="btn-sair" class="btn-sair">Sair do Radar</button>
     </div>
+    
+    <p class="subtitle">Controle de RFID Violado - Operação</p>
 
     <form id="rfidForm">
         <div>
-            <label>Fiscal</label>
+            <label>Fiscal Responsável</label>
             <input type="text" id="fiscalLogado" disabled>
         </div>
         <div>
@@ -153,7 +166,7 @@
             <input type="date" id="data" required>
         </div>
         <div class="full-width">
-            <label>Setor</label>
+            <label>Setor/Localização</label>
             <select id="setor" required>
                 <option value="">Selecione...</option>
                 <option value="Provador Feminino">Provador Feminino</option>
@@ -164,31 +177,37 @@
             </select>
         </div>
         <div>
-            <label>SKU</label>
-            <input type="number" id="sku" placeholder="000000000" required>
+            <label>Código SKU</label>
+            <input type="number" id="sku" placeholder="Ex: 552664497" required>
         </div>
         <div>
-            <label>Valor (R$)</label>
+            <label>Valor da Peça (R$)</label>
             <input type="text" id="valor" placeholder="0,00" oninput="formatarMoeda(this)" required>
         </div>
         <div class="full-width">
-            <label>Descrição</label>
-            <input type="text" id="descricao" placeholder="Ex: Camiseta Básica" required>
+            <label>Descrição da Peça</label>
+            <input type="text" id="descricao" placeholder="Ex: Calça Denim J" required>
         </div>
         <button type="submit" id="btn-registrar">Registrar Ocorrência</button>
     </form>
 
     <div class="dashboard">
         <div class="card">
-            <h3>Peças</h3>
+            <h3>Peças Mapeadas</h3>
             <p id="totalItems">0</p>
         </div>
         <div class="card green">
-            <h3>Total R$</h3>
+            <h3>Prejuízo Total</h3>
             <p id="totalValue">R$ 0,00</p>
         </div>
     </div>
 
+    <div class="chart-container">
+        <h3 style="font-size: 14px; text-transform: uppercase; color: #666; margin-bottom: 15px;">Valores por Setor</h3>
+        <canvas id="graficoSetor" style="max-height: 300px; width: 100%;"></canvas>
+    </div>
+
+    <h3 style="font-size: 14px; text-transform: uppercase; color: #666;">Histórico de Ocorrências</h3>
     <div class="table-container">
         <table>
             <thead>
@@ -196,7 +215,7 @@
                     <th>Data</th>
                     <th>Fiscal</th>
                     <th>Setor</th>
-                    <th>Descrição</th>
+                    <th>SKU / Descrição</th>
                     <th>Valor</th>
                     <th>Ação</th>
                 </tr>
@@ -205,11 +224,7 @@
         </table>
     </div>
 
-    <button type="button" id="btn-pdf" class="pdf-btn">📄 Exportar Relatório PDF</button>
-    
-    <div class="chart-box" id="boxGrafico">
-        <canvas id="graficoSetor"></canvas>
-    </div>
+    <button type="button" id="btn-pdf" class="pdf-btn">📄 Exportar Relatório Analítico (PDF)</button>
 </div>
 
 <script type="module">
@@ -231,8 +246,9 @@
     const auth = getAuth(app);
 
     let ocorrenciasGlobais = [];
+    let meuGrafico = null;
 
-    // --- CONTROLE DE ACESSO ---
+    // --- AUTENTICAÇÃO ---
     onAuthStateChanged(auth, (user) => {
         if (user) {
             document.getElementById('tela-login').style.display = 'none';
@@ -240,8 +256,8 @@
             let nome = user.email.split('@')[0];
             nome = nome.charAt(0).toUpperCase() + nome.slice(1);
             document.getElementById('fiscalLogado').value = nome;
-            document.getElementById('txt-boas-vindas').innerText = "Fiscal: " + nome;
-            carregarDados();
+            document.getElementById('txt-boas-vindas').innerText = "Olá, " + nome + "!";
+            ouvirBanco();
         } else {
             document.getElementById('tela-login').style.display = 'flex';
             document.getElementById('sistema-principal').style.display = 'none';
@@ -252,14 +268,15 @@
         const email = document.getElementById('email-login').value;
         const senha = document.getElementById('senha-login').value;
         signInWithEmailAndPassword(auth, email, senha).catch(() => {
-            document.getElementById('erro-login').style.display = 'block';
-            document.getElementById('erro-login').innerText = "Usuário ou senha incorretos";
+            const erro = document.getElementById('erro-login');
+            erro.style.display = 'block';
+            erro.innerText = "E-mail ou senha incorretos!";
         });
     });
 
     document.getElementById('btn-sair').addEventListener('click', () => { signOut(auth); });
 
-    // --- FORMATAÇÃO E REGISTRO ---
+    // --- FORMULÁRIO ---
     window.formatarMoeda = (el) => {
         let v = el.value.replace(/\D/g, "");
         if (v === "") return;
@@ -273,7 +290,7 @@
         e.preventDefault();
         const btn = document.getElementById('btn-registrar');
         btn.disabled = true;
-        btn.innerText = "Registrando...";
+        btn.innerText = "Salvando...";
 
         const valorLimpo = document.getElementById('valor').value.replace(/\./g, "").replace(",", ".");
         
@@ -289,20 +306,19 @@
             });
             document.getElementById('rfidForm').reset();
             document.getElementById('data').valueAsDate = new Date();
-            // Restaurar o nome do fiscal após reset
-            const user = auth.currentUser;
-            let nome = user.email.split('@')[0];
+            // Repreenche o fiscal que o reset limpou
+            let nome = auth.currentUser.email.split('@')[0];
             document.getElementById('fiscalLogado').value = nome.charAt(0).toUpperCase() + nome.slice(1);
         } catch (err) {
-            alert("Erro ao salvar dados.");
+            alert("Erro ao registrar no banco de dados.");
         } finally {
             btn.disabled = false;
             btn.innerText = "Registrar Ocorrência";
         }
     });
 
-    // --- CARREGAMENTO REAL-TIME ---
-    function carregarDados() {
+    // --- ATUALIZAÇÃO EM TEMPO REAL ---
+    function ouvirBanco() {
         const q = query(collection(db, "ocorrencias"), orderBy("data", "desc"));
         onSnapshot(q, (snapshot) => {
             ocorrenciasGlobais = [];
@@ -310,8 +326,8 @@
             tbody.innerHTML = '';
             let total = 0;
 
-            snapshot.forEach((doc) => {
-                const item = { id: doc.id, ...doc.data() };
+            snapshot.forEach((docSnap) => {
+                const item = { id: docSnap.id, ...docSnap.data() };
                 ocorrenciasGlobais.push(item);
                 total += item.valor;
                 
@@ -320,48 +336,75 @@
                         <td>${item.data.split('-').reverse().join('/')}</td>
                         <td><strong>${item.fiscal}</strong></td>
                         <td>${item.setor}</td>
-                        <td>${item.descricao}</td>
+                        <td>${item.sku} - ${item.descricao}</td>
                         <td>R$ ${item.valor.toFixed(2).replace('.', ',')}</td>
-                        <td><button class="delete-btn" onclick="window.deletarRegistro('${item.id}')">Excluir</button></td>
+                        <td><button class="delete-btn" onclick="window.deletar('${item.id}')">Excluir</button></td>
                     </tr>
                 `;
             });
 
             document.getElementById('totalItems').innerText = ocorrenciasGlobais.length;
             document.getElementById('totalValue').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            atualizarGrafico();
         });
     }
 
-    window.deletarRegistro = async (id) => {
-        if(confirm("Deseja excluir este registro?")) {
+    window.deletar = async (id) => {
+        if(confirm("Confirmar exclusão desta ocorrência?")) {
             await deleteDoc(doc(db, "ocorrencias", id));
         }
     };
 
-    // --- EXPORTAR PDF ---
+    // --- GRÁFICO ---
+    function atualizarGrafico() {
+        const dadosSetor = {};
+        ocorrenciasGlobais.forEach(item => {
+            dadosSetor[item.setor] = (dadosSetor[item.setor] || 0) + item.valor;
+        });
+
+        const ctx = document.getElementById('graficoSetor').getContext('2d');
+        if (meuGrafico) meuGrafico.destroy();
+
+        meuGrafico = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(dadosSetor),
+                datasets: [{
+                    label: 'Prejuízo (R$)',
+                    data: Object.values(dadosSetor),
+                    backgroundColor: '#E30014',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+
+    // --- PDF ---
     document.getElementById('btn-pdf').addEventListener('click', () => {
-        if(ocorrenciasGlobais.length === 0) {
-            alert("Não há dados para exportar.");
-            return;
-        }
+        if(ocorrenciasGlobais.length === 0) return alert("Sem dados para exportar.");
 
         const { jsPDF } = window.jspdf;
-        const docPDF = new jsPDF();
+        const pdf = new jsPDF();
         
-        docPDF.setFontSize(20);
-        docPDF.setTextColor(227, 0, 20);
-        docPDF.text("RELATÓRIO DE PERDAS - LOJA 482", 14, 20);
+        pdf.setFontSize(18);
+        pdf.setTextColor(227, 0, 20);
+        pdf.text("RADAR DE PREVENÇÃO - LOJA 482", 14, 20);
         
-        const colunas = ["Data", "Fiscal", "Setor", "Descrição", "Valor"];
+        const colunas = ["Data", "Fiscal", "Setor", "SKU / Descrição", "Valor"];
         const linhas = ocorrenciasGlobais.map(item => [
             item.data.split('-').reverse().join('/'),
             item.fiscal,
             item.setor,
-            item.descricao,
+            `${item.sku} - ${item.descricao}`,
             `R$ ${item.valor.toFixed(2).replace('.', ',')}`
         ]);
 
-        docPDF.autoTable({
+        pdf.autoTable({
             startY: 30,
             head: [colunas],
             body: linhas,
@@ -369,7 +412,7 @@
             headStyles: { fillColor: [51, 51, 51] }
         });
 
-        docPDF.save(`Relatorio_Radar_482.pdf`);
+        pdf.save(`Relatorio_Radar_482.pdf`);
     });
 </script>
 </body>
