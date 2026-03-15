@@ -15,7 +15,7 @@
             --dark-bg: #121212;
             --light: #FFFFFF;
             --success: #28A745;
-            --blue-info: #007AFF; /* Azul profissional para os cards */
+            --blue-info: #007AFF; 
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -27,7 +27,7 @@
             color: #1C1C1E;
         }
 
-        /* --- TELA DE LOGIN REFINADA (MOBILE FIRST) --- */
+        /* --- TELA DE LOGIN --- */
         #wrapper-login {
             display: flex; align-items: center; justify-content: center; 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -110,16 +110,16 @@
             width: 100%;
         }
 
-        /* --- DASHBOARD (AGORA COM CORES AZUIS) --- */
+        /* --- DASHBOARD --- */
         .dashboard { display: flex; gap: 10px; margin-bottom: 20px; }
         .card {
             flex: 1; background: #F2F2F7; padding: 12px; border-radius: 10px;
-            text-align: center; border-bottom: 3px solid var(--blue-info); /* Azul */
+            text-align: center; border-bottom: 3px solid var(--blue-info); 
         }
         .card h3 { margin: 0; font-size: 10px; color: #8E8E93; text-transform: uppercase; }
         .card p { margin: 5px 0 0 0; font-size: 18px; font-weight: 800; }
 
-        /* --- FILTRO POR PERÍODO (MOVIDO PARA BAIXO DOS CARDS) --- */
+        /* --- FILTRO POR PERÍODO --- */
         .filter-box {
             background: #F2F2F7; padding: 15px; border-radius: 12px;
             margin-bottom: 20px;
@@ -147,6 +147,23 @@
         }
 
         #container-grafico-oculto { position: absolute; left: -9999px; top: 0; width: 600px; height: 300px; }
+
+        /* --- RODAPÉ --- */
+        .rodape-sistema {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #E5E5EA;
+            color: #8E8E93;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .rodape-sistema span {
+            color: var(--primary);
+            font-weight: 800;
+        }
 
         @media (min-width: 600px) {
             form { display: grid; grid-template-columns: 1fr 1fr; }
@@ -260,6 +277,10 @@
 
     <div id="container-grafico-oculto">
         <canvas id="graficoSetor"></canvas>
+    </div>
+
+    <div class="rodape-sistema">
+        Desenvolvido por <span>Johnny</span> | Prevenção de Perdas
     </div>
 </div>
 
@@ -403,6 +424,7 @@
         if(confirm("Excluir registro?")) { await deleteDoc(doc(db, "ocorrencias", id)); }
     };
 
+    // --- LÓGICA DO PDF REFATORADA ---
     document.getElementById('btn-pdf').addEventListener('click', () => {
         if(ocorrenciasExibidas.length === 0) return alert("Sem dados para exportar no período selecionado.");
         
@@ -425,20 +447,97 @@
         setTimeout(() => {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
-            pdf.setFontSize(18); pdf.setTextColor(227, 0, 20); pdf.text("RELATÓRIO DE PERDAS - LOJA 482", 14, 20);
             
+            // Dados de Data e Hora Atual
+            const dataAtual = new Date();
+            const dataFormatada = dataAtual.toLocaleDateString('pt-BR');
+            const horaFormatada = dataAtual.toLocaleTimeString('pt-BR');
+            const nomeFiscal = document.getElementById('fiscalLogado').value;
+
+            // --- INTELIGÊNCIA DO CARGO ---
+            let cargo = "Fiscal";
+            // Se o nome logado for "Laina" (independente de maiúsculas/minúsculas), muda o cargo
+            if (nomeFiscal.trim().toLowerCase() === "laina") {
+                cargo = "Fiscal Líder";
+            }
+
+            // --- CABEÇALHO ---
+            pdf.setFont("helvetica", "bold");
+            pdf.setFontSize(16);
+            pdf.setTextColor(227, 0, 20); // Vermelho Renner
+            pdf.text("RELATÓRIO DE ETIQUETAS VIOLADAS - LOJA 482", 14, 20);
+            
+            // Subtítulo: Data, Hora e Usuário com a Lógica do Cargo
+            pdf.setFont("helvetica", "normal");
+            pdf.setFontSize(10);
+            pdf.setTextColor(100, 100, 100);
+            pdf.text(`Exportado em: ${dataFormatada} às ${horaFormatada}`, 14, 27);
+            pdf.text(`Gerado por: ${cargo} ${nomeFiscal}`, 14, 32);
+
+            // Resumo do Dashboard
+            const totalItens = document.getElementById('totalItems').innerText;
+            const totalValor = document.getElementById('totalValue').innerText;
+            pdf.setFont("helvetica", "bold");
+            pdf.setTextColor(50, 50, 50);
+            pdf.text(`Resumo do Período: ${totalItens} Peças | Prejuízo: ${totalValor}`, 14, 39);
+
+            // Linha Divisória
+            pdf.setDrawColor(200, 200, 200);
+            pdf.line(14, 43, 196, 43);
+            
+            // --- TABELA ---
             const colunas = ["Data", "Fiscal", "Setor", "SKU / Descrição", "Valor"];
             const linhas = ocorrenciasExibidas.map(item => [
                 item.data.split('-').reverse().join('/'),
-                item.fiscal, item.setor, `${item.sku} - ${item.descricao}`,
+                item.fiscal, 
+                item.setor, 
+                `${item.sku} - ${item.descricao}`,
                 `R$ ${item.valor.toFixed(2).replace('.', ',')}`
             ]);
             
-            pdf.autoTable({ startY: 30, head: [colunas], body: linhas, theme: 'striped', headStyles: { fillColor: [51, 51, 51] } });
-            pdf.addPage(); pdf.text("ANÁLISE POR SETOR", 14, 20);
-            pdf.addImage(canvas.toDataURL("image/png"), 'PNG', 15, 30, 180, 90);
+            pdf.autoTable({ 
+                startY: 48, 
+                head: [colunas], 
+                body: linhas, 
+                theme: 'striped', 
+                headStyles: { fillColor: [28, 28, 30], textColor: [255, 255, 255], fontStyle: 'bold' },
+                columnStyles: {
+                    4: { halign: 'right' } // Alinha valores em R$ à direita
+                },
+                styles: { fontSize: 9, cellPadding: 4 },
+                alternateRowStyles: { fillColor: [248, 248, 248] },
+                didDrawPage: function (data) {
+                    // Rodapé com assinatura
+                    pdf.setFont("helvetica", "normal");
+                    pdf.setFontSize(8);
+                    pdf.setTextColor(150, 150, 150);
+                    pdf.text("Radar de Prevenção - Desenvolvido por Johnny", data.settings.margin.left, pdf.internal.pageSize.height - 10);
+                    pdf.text("Página " + pdf.internal.getNumberOfPages(), 196 - 15, pdf.internal.pageSize.height - 10);
+                }
+            });
             
-            pdf.save(`Relatorio_Radar_482.pdf`);
+            // --- PÁGINA 2: GRÁFICO ---
+            pdf.addPage(); 
+            pdf.setFont("helvetica", "bold");
+            pdf.setFontSize(16);
+            pdf.setTextColor(227, 0, 20);
+            pdf.text("ANÁLISE FINANCEIRA POR SETOR", 14, 20);
+            
+            pdf.setDrawColor(200, 200, 200);
+            pdf.line(14, 25, 196, 25);
+
+            pdf.addImage(canvas.toDataURL("image/png", 1.0), 'PNG', 15, 35, 180, 90);
+            
+            // Rodapé da Página 2
+            pdf.setFont("helvetica", "normal");
+            pdf.setFontSize(8);
+            pdf.setTextColor(150, 150, 150);
+            pdf.text("Radar de Prevenção - Desenvolvido por Johnny", 14, pdf.internal.pageSize.height - 10);
+            pdf.text("Página " + pdf.internal.getNumberOfPages(), 196 - 15, pdf.internal.pageSize.height - 10);
+
+            // Salva com data dinâmica no nome
+            const nomeArquivo = `Relatorio_de_Etiquetas_Violadas_482_${dataFormatada.replace(/\//g, '-')}.pdf`;
+            pdf.save(nomeArquivo);
         }, 500);
     });
 </script>
