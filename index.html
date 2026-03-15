@@ -34,7 +34,6 @@
             z-index: 10000; padding: 20px;
         }
 
-        /* Detalhe decorativo vermelho no fundo */
         #wrapper-login::before {
             content: ""; position: absolute; top: -50px; right: -50px;
             width: 200px; height: 200px; background: var(--primary);
@@ -112,10 +111,14 @@
         }
         input:disabled { background: #E5E5EA; color: #8E8E93; }
 
+        /* AJUSTE NO BOTÃO REGISTRAR OCORRÊNCIA */
         form button[type="submit"] {
             background: var(--primary); color: white; border: none;
             padding: 16px; font-size: 16px; font-weight: 700; border-radius: 10px;
             margin-top: 5px; cursor: pointer;
+            text-transform: uppercase; /* Força o texto em maiúsculo */
+            grid-column: span 2; /* Faz ocupar as duas colunas no modo desktop */
+            width: 100%;
         }
 
         .table-container { width: 100%; overflow-x: auto; margin-top: 20px; border-radius: 10px; }
@@ -125,7 +128,6 @@
 
         .delete-btn { color: var(--primary); border: 1px solid var(--primary); background: none; padding: 5px 10px; border-radius: 4px; font-size: 10px; font-weight: 700; }
 
-        /* BOTÃO EXPORTAR VERDE - CONFORME SOLICITADO */
         .pdf-btn { 
             background: var(--success); width: 100%; padding: 18px; 
             color: white; border: none; border-radius: 12px; font-weight: 800; 
@@ -309,7 +311,7 @@
             let nome = auth.currentUser.email.split('@')[0];
             document.getElementById('fiscalLogado').value = nome.charAt(0).toUpperCase() + nome.slice(1);
         } catch (err) { alert("ERRO AO SALVAR"); } 
-        finally { btn.disabled = false; btn.innerText = "Registrar Ocorrência"; }
+        finally { btn.disabled = false; btn.innerText = "REGISTRAR OCORRÊNCIA"; }
     });
 
     function carregarDados() {
