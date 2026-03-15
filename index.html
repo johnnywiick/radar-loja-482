@@ -12,62 +12,69 @@
     <style>
         :root {
             --primary: #E30014; 
-            --dark: #1a1a1a;
-            --light: #F8F9FA;
+            --dark-bg: #121212;
+            --light: #FFFFFF;
             --success: #28A745;
         }
         
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0; padding: 0; min-height: 100vh;
-            background-color: #f4f4f4;
-            display: flex; flex-direction: column;
+            background-color: #F2F2F7;
+            color: #1C1C1E;
         }
 
-        /* --- TELA DE LOGIN 100% RESPONSIVA --- */
+        /* --- TELA DE LOGIN REFINADA (MOBILE FIRST) --- */
         #wrapper-login {
             display: flex; align-items: center; justify-content: center; 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #8E0000 0%, #E30014 100%);
-            z-index: 10000;
-            padding: 20px;
+            background: linear-gradient(180deg, #1C1C1E 0%, #000000 100%);
+            z-index: 10000; padding: 20px;
+        }
+
+        /* Detalhe decorativo vermelho no fundo */
+        #wrapper-login::before {
+            content: ""; position: absolute; top: -50px; right: -50px;
+            width: 200px; height: 200px; background: var(--primary);
+            filter: blur(100px); opacity: 0.3;
         }
 
         .login-box {
-            width: 100%; max-width: 400px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 100%; max-width: 350px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 40px 25px; text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         .login-box h2 { 
-            color: #fff; font-size: 24px; font-weight: 700; 
+            color: #FFFFFF; font-size: 18px; font-weight: 400; 
             text-transform: uppercase; margin-bottom: 30px; 
-            letter-spacing: 1px; line-height: 1.2;
+            letter-spacing: 2px; line-height: 1.4;
         }
 
         .login-box input {
-            width: 100%; padding: 16px; margin: 10px 0; border-radius: 12px;
-            border: none; background: #fff; font-size: 18px; color: #333;
-            outline: none; text-align: center;
+            width: 100%; padding: 14px; margin: 8px 0; border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            background: rgba(255, 255, 255, 0.95); 
+            font-size: 16px; color: #000; outline: none;
         }
 
         .btn-entrar {
-            width: 100%; padding: 18px; background: #fff; color: var(--primary);
-            border: none; border-radius: 12px; cursor: pointer; font-weight: 900; 
-            font-size: 20px; text-transform: uppercase; margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            width: 100%; padding: 16px; background: var(--primary); color: #FFFFFF;
+            border: none; border-radius: 10px; cursor: pointer; font-weight: 700; 
+            font-size: 16px; text-transform: uppercase; margin-top: 20px;
+            transition: opacity 0.2s;
         }
+        .btn-entrar:active { opacity: 0.8; }
 
         /* --- SISTEMA PRINCIPAL --- */
         .container {
             width: 100%; max-width: 900px; margin: 0 auto; 
             background: white; padding: 15px; display: none;
-            flex-grow: 1;
         }
 
         .header-top {
@@ -75,63 +82,63 @@
             border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px;
         }
 
-        .header-top h1 { margin: 0; font-size: 18px; color: var(--primary); }
+        .header-top h1 { margin: 0; font-size: 18px; color: var(--primary); font-weight: 800; }
 
         .btn-sair { 
-            background: var(--dark); color: white; border: none; padding: 8px 12px; 
-            border-radius: 5px; font-weight: bold; font-size: 12px;
+            background: #000; color: white; border: none; padding: 8px 12px; 
+            border-radius: 6px; font-weight: bold; font-size: 11px;
         }
 
-        p.subtitle { text-align: center; color: #666; font-size: 14px; margin: 10px 0 20px; }
+        p.subtitle { text-align: center; color: #8E8E93; font-size: 13px; margin: 5px 0 20px; font-weight: 600; text-transform: uppercase; }
 
         .dashboard { display: flex; gap: 10px; margin-bottom: 20px; }
         .card {
-            flex: 1; background: var(--light); padding: 12px; border-radius: 8px;
-            text-align: center; border-left: 4px solid var(--primary);
+            flex: 1; background: #F2F2F7; padding: 12px; border-radius: 10px;
+            text-align: center; border-bottom: 3px solid var(--primary);
         }
-        .card.green { border-left-color: var(--success); }
-        .card h3 { margin: 0; font-size: 11px; color: #555; text-transform: uppercase; }
-        .card p { margin: 5px 0 0 0; font-size: 20px; font-weight: bold; }
+        .card.green { border-bottom-color: var(--success); }
+        .card h3 { margin: 0; font-size: 10px; color: #8E8E93; text-transform: uppercase; }
+        .card p { margin: 5px 0 0 0; font-size: 18px; font-weight: 800; }
 
         form {
-            display: flex; flex-direction: column; gap: 10px; 
-            background: var(--light); padding: 15px; border-radius: 10px;
+            display: flex; flex-direction: column; gap: 12px; 
+            background: #F2F2F7; padding: 15px; border-radius: 12px;
         }
 
-        label { font-size: 12px; font-weight: bold; color: #444; text-transform: uppercase; }
+        label { font-size: 11px; font-weight: 700; color: #1C1C1E; text-transform: uppercase; }
         input, select { 
-            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; 
-            font-size: 16px; /* Evita zoom automático no iPhone */
+            width: 100%; padding: 12px; border: 1px solid #D1D1D6; border-radius: 8px; 
+            font-size: 16px; background: #FFFFFF;
         }
-        input:disabled { background: #eee; }
+        input:disabled { background: #E5E5EA; color: #8E8E93; }
 
         form button[type="submit"] {
             background: var(--primary); color: white; border: none;
-            padding: 16px; font-size: 16px; font-weight: bold; border-radius: 8px;
-            margin-top: 10px; cursor: pointer;
+            padding: 16px; font-size: 16px; font-weight: 700; border-radius: 10px;
+            margin-top: 5px; cursor: pointer;
         }
 
-        .table-container { width: 100%; overflow-x: auto; margin-top: 20px; }
+        .table-container { width: 100%; overflow-x: auto; margin-top: 20px; border-radius: 10px; }
         table { width: 100%; border-collapse: collapse; min-width: 500px; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; font-size: 13px; }
-        th { background: var(--dark); color: white; text-transform: uppercase; font-size: 10px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #E5E5EA; font-size: 13px; }
+        th { background: #1C1C1E; color: white; text-transform: uppercase; font-size: 10px; }
 
-        .delete-btn { color: #ff4d4d; border: 1px solid #ff4d4d; background: none; padding: 5px 10px; border-radius: 4px; font-size: 11px; }
+        .delete-btn { color: var(--primary); border: 1px solid var(--primary); background: none; padding: 5px 10px; border-radius: 4px; font-size: 10px; font-weight: 700; }
 
-        /* BOTÃO EXPORTAR VERDE */
+        /* BOTÃO EXPORTAR VERDE - CONFORME SOLICITADO */
         .pdf-btn { 
             background: var(--success); width: 100%; padding: 18px; 
-            color: white; border: none; border-radius: 10px; font-weight: bold; 
-            font-size: 16px; text-transform: uppercase; margin-top: 25px;
+            color: white; border: none; border-radius: 12px; font-weight: 800; 
+            font-size: 15px; text-transform: uppercase; margin-top: 25px;
+            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
         }
 
         #container-grafico-oculto { position: absolute; left: -9999px; top: 0; width: 600px; height: 300px; }
 
-        /* Ajustes Mobile específicos */
         @media (min-width: 600px) {
             form { display: grid; grid-template-columns: 1fr 1fr; }
             .full-width { grid-column: span 2; }
-            .container { margin: 20px auto; border-radius: 12px; }
+            .container { margin: 20px auto; border-radius: 16px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         }
     </style>
 </head>
@@ -140,16 +147,16 @@
 <div id="wrapper-login">
     <div class="login-box">
         <h2>Acesso de Fiscal autorizado</h2>
-        <input type="email" id="email-login" placeholder="E-mail de acesso" autocomplete="email">
+        <input type="email" id="email-login" placeholder="E-mail">
         <input type="password" id="senha-login" placeholder="Senha">
         <button type="button" id="btn-entrar" class="btn-entrar">ENTRAR</button>
-        <p id="erro-login" style="color: #fff; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; display: none; font-weight: bold; margin-top: 15px; font-size: 13px;"></p>
+        <p id="erro-login" style="color: #FF453A; font-weight: bold; margin-top: 15px; font-size: 13px; display: none;"></p>
     </div>
 </div>
 
 <div id="sistema-principal" class="container">
     <div class="header-top">
-        <h1>Radar Loja 482</h1>
+        <h1>RADAR LOJA 482</h1>
         <button type="button" id="btn-sair" class="btn-sair">SAIR</button>
     </div>
     
@@ -177,15 +184,15 @@
         </div>
         <div>
             <label>Código SKU</label>
-            <input type="number" id="sku" placeholder="Ex: 552664497" required>
+            <input type="number" id="sku" placeholder="000000000" required>
         </div>
         <div>
-            <label>Valor da Peça (R$)</label>
+            <label>Valor (R$)</label>
             <input type="text" id="valor" placeholder="0,00" oninput="formatarMoeda(this)" required>
         </div>
         <div class="full-width">
             <label>Descrição da Peça</label>
-            <input type="text" id="descricao" placeholder="Ex: Calça Denim J" required>
+            <input type="text" id="descricao" placeholder="Ex: Calça Denim" required>
         </div>
         <button type="submit" id="btn-registrar">Registrar Ocorrência</button>
     </form>
@@ -244,7 +251,6 @@
 
     let ocorrenciasGlobais = [];
 
-    // --- CONTROLE DE LOGIN ---
     onAuthStateChanged(auth, (user) => {
         const login = document.getElementById('wrapper-login');
         const sistema = document.getElementById('sistema-principal');
@@ -265,14 +271,10 @@
         const senha = document.getElementById('senha-login').value;
         if(!email || !senha) return;
         
-        document.getElementById('btn-entrar').innerText = "VERIFICANDO...";
-        
-        signInWithEmailAndPassword(auth, email, senha).catch((error) => {
-            document.getElementById('btn-entrar').innerText = "ENTRAR";
+        signInWithEmailAndPassword(auth, email, senha).catch(() => {
             const erro = document.getElementById('erro-login');
             erro.style.display = 'block';
-            erro.innerText = "DADOS INVÁLIDOS!";
-            console.error(error);
+            erro.innerText = "DADOS INCORRETOS";
         });
     });
 
@@ -327,7 +329,7 @@
                     <td>${item.setor}</td>
                     <td>${item.sku} - ${item.descricao}</td>
                     <td>R$ ${item.valor.toFixed(2).replace('.', ',')}</td>
-                    <td><button class="delete-btn" onclick="window.deletarRegistro('${item.id}')">X</button></td>
+                    <td><button class="delete-btn" onclick="window.deletarRegistro('${item.id}')">Excluir</button></td>
                 </tr>`;
             });
             document.getElementById('totalItems').innerText = ocorrenciasGlobais.length;
