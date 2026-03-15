@@ -13,379 +13,107 @@
     <style>
         :root {
             --primary: #E30014; 
-            --dark: #333333;
+            --dark: #1a1a1a;
             --light: #F8F9FA;
-            --success: #28A745;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #ECECEC;
-            margin: 0;
-            padding: 10px; 
-            color: var(--dark);
+            --success: #28A745; /* Verde para o botão de PDF */
         }
         
-        /* --- TELA DE LOGIN CENTRALIZADA --- */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #ECECEC;
+        }
+
+        /* --- TELA DE LOGIN REFINADA COM FUNDO DE SEGURANÇA --- */
         #wrapper-login {
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 90vh;
+            min-height: 100vh;
+            /* Imagem de fundo focada em segurança/tecnologia */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1557597774-9d2739f85a76?auto=format&fit=crop&q=80&w=1600');
+            background-size: cover;
+            background-position: center;
         }
+
         .login-box {
             width: 100%;
-            max-width: 400px; 
-            padding: 40px 30px;
-            background: white; 
-            border-radius: 15px;
+            max-width: 380px; 
+            padding: 50px 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             text-align: center; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
-        .login-box img { margin-bottom: 20px; }
-        .login-box h2 { color: var(--dark); margin-top: 0; font-size: 18px; text-transform: uppercase; margin-bottom: 20px; }
+
+        .login-box h2 { 
+            color: #fff; 
+            margin-top: 0; 
+            font-size: 24px; 
+            font-weight: 300; 
+            text-transform: uppercase; 
+            letter-spacing: 6px; 
+            margin-bottom: 35px; 
+        }
+
         .login-box input {
-            width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px;
-            border: 1px solid #ddd; box-sizing: border-box; font-size: 15px;
+            width: 100%; 
+            padding: 14px; 
+            margin: 12px 0; 
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3); 
+            background: rgba(0, 0, 0, 0.2);
+            box-sizing: border-box; 
+            font-size: 15px;
+            color: #fff;
+            outline: none;
         }
+
+        .login-box input::placeholder { color: rgba(255, 255, 255, 0.5); }
+
         .btn-entrar {
-            width: 100%; padding: 14px; background: var(--primary); color: white;
-            border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 15px;
+            width: 100%; 
+            padding: 15px; 
+            background: #fff; 
+            color: #1a1a1a;
+            border: none; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
         }
+
+        .btn-entrar:hover { background: var(--light); transform: translateY(-2px); }
 
         /* --- SISTEMA PRINCIPAL --- */
         .container {
-            max-width: 900px; margin: 0 auto; background: white; padding: 15px; 
-            border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 900px; 
+            margin: 20px auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
+
         .header-top {
-            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 2px solid var(--primary); 
+            padding-bottom: 15px; 
+            margin-bottom: 20px;
         }
+
         .header-top h1 { margin: 0; font-size: 22px; color: var(--primary); }
-        .btn-sair { background-color: var(--dark); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        
-        p.subtitle { text-align: center; color: #777; margin-top: 0; margin-bottom: 20px; font-size: 14px; }
-        
-        .dashboard { display: flex; gap: 10px; margin-bottom: 20px; }
-        .card {
-            flex: 1; background: var(--light); padding: 12px; border-radius: 8px;
-            text-align: center; border-left: 5px solid var(--primary);
-        }
-        .card.green { border-left-color: var(--success); }
-        .card h3 { margin: 0; font-size: 13px; color: #555; }
-        .card p { margin: 8px 0 0 0; font-size: 20px; font-weight: bold; }
 
-        /* GRÁFICO ESCONDIDO (SÓ PARA O PDF) */
-        #container-grafico-oculto { position: absolute; left: -9999px; top: 0; width: 600px; height: 300px; }
-
-        form {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--light);
-            padding: 15px; border-radius: 8px; margin-bottom: 20px;
-        }
-        .full-width { grid-column: span 2; }
-        label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 3px; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
-        input:disabled { background-color: #e9ecef; }
-        
-        form button[type="submit"] {
-            grid-column: span 2; background-color: var(--primary); color: white; border: none;
-            padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer;
-        }
-
-        .table-container { width: 100%; overflow-x: auto; margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; font-size: 13px; }
-        th { background-color: var(--dark); color: white; }
-        .delete-btn { background-color: #ff4d4d; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; }
-
-        .pdf-btn { 
-            background-color: var(--dark); margin-top: 25px; width: 100%; padding: 15px; font-size: 16px; 
-            color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;
-        }
-
-        @media (max-width: 600px) {
-            .dashboard { flex-direction: column; gap: 8px; }
-            form { grid-template-columns: 1fr; } 
-            .full-width, form button[type="submit"] { grid-column: span 1; }
-        }
-    </style>
-</head>
-<body>
-
-<div id="wrapper-login">
-    <div class="login-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Lojas_Renner_logo.svg/2560px-Lojas_Renner_logo.svg.png" width="180" alt="Renner">
-        <h2>Acesso ao Sistema</h2>
-        <input type="email" id="email-login" placeholder="E-mail">
-        <input type="password" id="senha-login" placeholder="Senha">
-        <button id="btn-entrar" class="btn-entrar">Entrar no Radar</button>
-        <p id="erro-login" style="color: var(--primary); display: none; font-weight: bold; margin-top: 15px; font-size: 13px;"></p>
-    </div>
-</div>
-
-<div id="sistema-principal" class="container" style="display: none;">
-    <div class="header-top">
-        <h1>Radar de Prevenção - Loja 482</h1>
-        <button id="btn-sair" class="btn-sair">Sair</button>
-    </div>
-    
-    <p class="subtitle">Controle de RFID Violado - Operação</p>
-
-    <form id="rfidForm">
-        <div>
-            <label>Fiscal em Operação</label>
-            <input type="text" id="fiscalLogado" disabled>
-        </div>
-        <div>
-            <label>Data</label>
-            <input type="date" id="data" required>
-        </div>
-        <div class="full-width">
-            <label>Setor/Localização</label>
-            <select id="setor" required>
-                <option value="">Selecione...</option>
-                <option value="Provador Feminino">Provador Feminino</option>
-                <option value="Provador Masculino">Provador Masculino</option>
-                <option value="Salão de Vendas">Salão de Vendas</option>
-                <option value="Retaguarda">Retaguarda</option>
-                <option value="Outros">Outros</option>
-            </select>
-        </div>
-        <div>
-            <label>Código SKU</label>
-            <input type="number" id="sku" placeholder="Ex: 552664497" required>
-        </div>
-        <div>
-            <label>Valor (R$)</label>
-            <input type="text" id="valor" placeholder="0,00" oninput="formatarMoeda(this)" required>
-        </div>
-        <div class="full-width">
-            <label>Descrição da Peça</label>
-            <input type="text" id="descricao" placeholder="Ex: Calça Denim J" required>
-        </div>
-        <button type="submit" id="btn-registrar">Registrar Ocorrência</button>
-    </form>
-
-    <div class="dashboard">
-        <div class="card">
-            <h3>Total no Período</h3>
-            <p id="totalItems">0</p>
-        </div>
-        <div class="card green">
-            <h3>Prejuízo Mapeado (R$)</h3>
-            <p id="totalValue">R$ 0,00</p>
-        </div>
-    </div>
-
-    <h3>Histórico de Ocorrências</h3>
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Fiscal</th>
-                    <th>Setor</th>
-                    <th>SKU / Descrição</th>
-                    <th>Valor</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-            <tbody id="tabelaCorpo"></tbody>
-        </table>
-    </div>
-
-    <button type="button" id="btn-pdf" class="pdf-btn">📄 Exportar Relatório PDF com Gráfico</button>
-
-    <div id="container-grafico-oculto">
-        <canvas id="graficoSetor"></canvas>
-    </div>
-</div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAJrbK-tCGHdrX71zD_xUxmISCZbsESW5I",
-      authDomain: "radarloja482.firebaseapp.com",
-      projectId: "radarloja482",
-      storageBucket: "radarloja482.firebasestorage.app",
-      messagingSenderId: "342229469819",
-      appId: "1:342229469819:web:491c83eb4a4d61fe0270de"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-
-    let ocorrenciasGlobais = [];
-
-    // --- AUTENTICAÇÃO ---
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            document.getElementById('wrapper-login').style.display = 'none';
-            document.getElementById('sistema-principal').style.display = 'block';
-            let nome = user.email.split('@')[0];
-            document.getElementById('fiscalLogado').value = nome.charAt(0).toUpperCase() + nome.slice(1);
-            ouvirBanco();
-        } else {
-            document.getElementById('wrapper-login').style.display = 'flex';
-            document.getElementById('sistema-principal').style.display = 'none';
-        }
-    });
-
-    document.getElementById('btn-entrar').addEventListener('click', () => {
-        const email = document.getElementById('email-login').value;
-        const senha = document.getElementById('senha-login').value;
-        signInWithEmailAndPassword(auth, email, senha).catch(() => {
-            document.getElementById('erro-login').style.display = 'block';
-            document.getElementById('erro-login').innerText = "E-mail ou senha incorretos!";
-        });
-    });
-
-    document.getElementById('btn-sair').addEventListener('click', () => { signOut(auth); });
-
-    // --- REGISTRO ---
-    window.formatarMoeda = (el) => {
-        let v = el.value.replace(/\D/g, "");
-        if (v === "") return;
-        v = (parseInt(v, 10) / 100).toFixed(2);
-        el.value = v.replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-    };
-
-    document.getElementById('data').valueAsDate = new Date();
-
-    document.getElementById('rfidForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('btn-registrar');
-        btn.disabled = true;
-        btn.innerText = "Registrando...";
-
-        const valorLimpo = document.getElementById('valor').value.replace(/\./g, "").replace(",", ".");
-        
-        try {
-            await addDoc(collection(db, "ocorrencias"), {
-                fiscal: document.getElementById('fiscalLogado').value,
-                setor: document.getElementById('setor').value,
-                sku: document.getElementById('sku').value,
-                descricao: document.getElementById('descricao').value,
-                valor: parseFloat(valorLimpo),
-                data: document.getElementById('data').value,
-                timestamp: Date.now()
-            });
-            document.getElementById('rfidForm').reset();
-            document.getElementById('data').valueAsDate = new Date();
-            let nome = auth.currentUser.email.split('@')[0];
-            document.getElementById('fiscalLogado').value = nome.charAt(0).toUpperCase() + nome.slice(1);
-        } catch (err) {
-            alert("Erro ao salvar.");
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "Registrar Ocorrência";
-        }
-    });
-
-    // --- ATUALIZAÇÃO EM TEMPO REAL (SEM RELOAD) ---
-    function ouvirBanco() {
-        const q = query(collection(db, "ocorrencias"), orderBy("data", "desc"));
-        onSnapshot(q, (snapshot) => {
-            ocorrenciasGlobais = [];
-            const tbody = document.getElementById('tabelaCorpo');
-            tbody.innerHTML = '';
-            let total = 0;
-
-            snapshot.forEach((docSnap) => {
-                const item = { id: docSnap.id, ...docSnap.data() };
-                ocorrenciasGlobais.push(item);
-                total += item.valor;
-                
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${item.data.split('-').reverse().join('/')}</td>
-                        <td><strong>${item.fiscal}</strong></td>
-                        <td>${item.setor}</td>
-                        <td>${item.sku} - ${item.descricao}</td>
-                        <td>R$ ${item.valor.toFixed(2).replace('.', ',')}</td>
-                        <td><button class="delete-btn" onclick="window.deletarRegistro('${item.id}')">Excluir</button></td>
-                    </tr>
-                `;
-            });
-
-            document.getElementById('totalItems').innerText = ocorrenciasGlobais.length;
-            document.getElementById('totalValue').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
-        });
-    }
-
-    window.deletarRegistro = async (id) => {
-        if(confirm("Confirmar exclusão?")) { await deleteDoc(doc(db, "ocorrencias", id)); }
-    };
-
-    // --- EXPORTAR PDF (GERA O GRÁFICO SÓ AQUI) ---
-    document.getElementById('btn-pdf').addEventListener('click', () => {
-        if(ocorrenciasGlobais.length === 0) return alert("Sem dados.");
-
-        // Criar o gráfico no canvas oculto antes de gerar o PDF
-        const dadosSetor = {};
-        ocorrenciasGlobais.forEach(item => { dadosSetor[item.setor] = (dadosSetor[item.setor] || 0) + item.valor; });
-
-        const canvas = document.getElementById('graficoSetor');
-        const ctx = canvas.getContext('2d');
-        
-        // Se já houver um gráfico no canvas, ele será destruído para criar um novo
-        if (window.meuGraficoPDF) window.meuGraficoPDF.destroy();
-
-        window.meuGraficoPDF = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: Object.keys(dadosSetor),
-                datasets: [{
-                    label: 'Prejuízo por Setor (R$)',
-                    data: Object.values(dadosSetor),
-                    backgroundColor: '#E30014'
-                }]
-            },
-            options: {
-                responsive: false,
-                animation: false,
-                plugins: { legend: { display: false } }
-            }
-        });
-
-        // Esperar um instante para o gráfico renderizar no canvas oculto
-        setTimeout(() => {
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF();
-            
-            pdf.setFontSize(18);
-            pdf.setTextColor(227, 0, 20);
-            pdf.text("RADAR DE PREVENÇÃO - LOJA 482", 14, 20);
-            
-            const colunas = ["Data", "Fiscal", "Setor", "SKU / Descrição", "Valor"];
-            const linhas = ocorrenciasGlobais.map(item => [
-                item.data.split('-').reverse().join('/'),
-                item.fiscal,
-                item.setor,
-                `${item.sku} - ${item.descricao}`,
-                `R$ ${item.valor.toFixed(2).replace('.', ',')}`
-            ]);
-
-            pdf.autoTable({
-                startY: 30,
-                head: [colunas],
-                body: linhas,
-                theme: 'striped',
-                headStyles: { fillColor: [51, 51, 51] }
-            });
-
-            // Adicionar o gráfico na segunda página do PDF
-            const imgData = canvas.toDataURL("image/png", 1.0);
-            pdf.addPage();
-            pdf.text("ANÁLISE DE PERDAS POR SETOR", 14, 20);
-            pdf.addImage(imgData, 'PNG', 15, 30, 180, 90);
-
-            pdf.save(`Relatorio_Radar_482.pdf`);
-        }, 500);
-    });
-</script>
-</body>
-</html>
+        .btn-sair { 
+            background-color
