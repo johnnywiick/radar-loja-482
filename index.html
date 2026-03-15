@@ -26,7 +26,7 @@
             color: #1C1C1E;
         }
 
-        /* --- TELA DE LOGIN REFINADA (MOBILE FIRST) --- */
+        /* --- TELA DE LOGIN --- */
         #wrapper-login {
             display: flex; align-items: center; justify-content: center; 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -85,7 +85,7 @@
 
         .btn-sair { 
             background: #000; color: white; border: none; padding: 8px 12px; 
-            border-radius: 6px; font-weight: bold; font-size: 11px;
+            border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer;
         }
 
         p.subtitle { text-align: center; color: #8E8E93; font-size: 13px; margin: 5px 0 20px; font-weight: 600; text-transform: uppercase; }
@@ -101,7 +101,7 @@
 
         form {
             display: flex; flex-direction: column; gap: 12px; 
-            background: #F2F2F7; padding: 15px; border-radius: 12px;
+            background: #F2F2F7; padding: 15px; border-radius: 12px; margin-bottom: 25px;
         }
 
         label { font-size: 11px; font-weight: 700; color: #1C1C1E; text-transform: uppercase; }
@@ -111,36 +111,49 @@
         }
         input:disabled { background: #E5E5EA; color: #8E8E93; }
 
-        /* AJUSTE NO BOTÃO REGISTRAR OCORRÊNCIA */
         form button[type="submit"] {
             background: var(--primary); color: white; border: none;
             padding: 16px; font-size: 16px; font-weight: 700; border-radius: 10px;
-            margin-top: 5px; cursor: pointer;
-            text-transform: uppercase; /* Força o texto em maiúsculo */
-            grid-column: span 2; /* Faz ocupar as duas colunas no modo desktop */
+            margin-top: 5px; cursor: pointer; text-transform: uppercase;
             width: 100%;
         }
 
-        .table-container { width: 100%; overflow-x: auto; margin-top: 20px; border-radius: 10px; }
+        /* --- FILTRO POR PERÍODO --- */
+        .filter-box {
+            background: #F2F2F7; padding: 15px; border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .filter-box h3 { margin-top: 0; margin-bottom: 12px; font-size: 12px; color: #1C1C1E; text-transform: uppercase; }
+        .filter-grid {
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .filter-grid > div { display: flex; flex-direction: column; }
+        .btn-filter { background: var(--dark-bg); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .btn-clear { background: #8E8E93; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+
+        .table-container { width: 100%; overflow-x: auto; margin-top: 10px; border-radius: 10px; }
         table { width: 100%; border-collapse: collapse; min-width: 500px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #E5E5EA; font-size: 13px; }
         th { background: #1C1C1E; color: white; text-transform: uppercase; font-size: 10px; }
 
-        .delete-btn { color: var(--primary); border: 1px solid var(--primary); background: none; padding: 5px 10px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+        .delete-btn { color: var(--primary); border: 1px solid var(--primary); background: none; padding: 5px 10px; border-radius: 4px; font-size: 10px; font-weight: 700; cursor: pointer; }
 
         .pdf-btn { 
             background: var(--success); width: 100%; padding: 18px; 
             color: white; border: none; border-radius: 12px; font-weight: 800; 
             font-size: 15px; text-transform: uppercase; margin-top: 25px;
-            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3); cursor: pointer;
         }
 
         #container-grafico-oculto { position: absolute; left: -9999px; top: 0; width: 600px; height: 300px; }
 
         @media (min-width: 600px) {
             form { display: grid; grid-template-columns: 1fr 1fr; }
-            .full-width { grid-column: span 2; }
+            .full-width, form button[type="submit"] { grid-column: span 2; }
             .container { margin: 20px auto; border-radius: 16px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .filter-grid { flex-direction: row; align-items: flex-end; }
+            .filter-grid > div { flex: 1; }
+            .btn-filter, .btn-clear { width: auto; padding: 12px 20px; }
         }
     </style>
 </head>
@@ -196,8 +209,24 @@
             <label>Descrição da Peça</label>
             <input type="text" id="descricao" placeholder="Ex: Calça Denim" required>
         </div>
-        <button type="submit" id="btn-registrar">Registrar Ocorrência</button>
+        <button type="submit" id="btn-registrar">REGISTRAR OCORRÊNCIA</button>
     </form>
+
+    <div class="filter-box">
+        <h3>Filtro por Período</h3>
+        <div class="filter-grid">
+            <div>
+                <label>Data Inicial</label>
+                <input type="date" id="filtroDataInicio">
+            </div>
+            <div>
+                <label>Data Final</label>
+                <input type="date" id="filtroDataFim">
+            </div>
+            <button type="button" class="btn-filter" onclick="window.aplicarFiltro()">Filtrar</button>
+            <button type="button" class="btn-clear" onclick="window.limparFiltro()">Limpar</button>
+        </div>
+    </div>
 
     <div class="dashboard">
         <div class="card">
@@ -252,6 +281,7 @@
     const auth = getAuth(app);
 
     let ocorrenciasGlobais = [];
+    let ocorrenciasExibidas = [];
 
     onAuthStateChanged(auth, (user) => {
         const login = document.getElementById('wrapper-login');
@@ -318,38 +348,72 @@
         const q = query(collection(db, "ocorrencias"), orderBy("data", "desc"));
         onSnapshot(q, (snapshot) => {
             ocorrenciasGlobais = [];
-            const tbody = document.getElementById('tabelaCorpo');
-            tbody.innerHTML = '';
-            let total = 0;
             snapshot.forEach((docSnap) => {
-                const item = { id: docSnap.id, ...docSnap.data() };
-                ocorrenciasGlobais.push(item);
-                total += item.valor;
-                tbody.innerHTML += `<tr>
-                    <td>${item.data.split('-').reverse().join('/')}</td>
-                    <td><strong>${item.fiscal}</strong></td>
-                    <td>${item.setor}</td>
-                    <td>${item.sku} - ${item.descricao}</td>
-                    <td>R$ ${item.valor.toFixed(2).replace('.', ',')}</td>
-                    <td><button class="delete-btn" onclick="window.deletarRegistro('${item.id}')">Excluir</button></td>
-                </tr>`;
+                ocorrenciasGlobais.push({ id: docSnap.id, ...docSnap.data() });
             });
-            document.getElementById('totalItems').innerText = ocorrenciasGlobais.length;
-            document.getElementById('totalValue').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            window.aplicarFiltro(); // Aplica o filtro atual sempre que chegam novos dados
         });
+    }
+
+    // --- FUNÇÕES DE FILTRO RESTAURADAS ---
+    window.aplicarFiltro = () => {
+        const dInicio = document.getElementById('filtroDataInicio').value;
+        const dFim = document.getElementById('filtroDataFim').value;
+        
+        ocorrenciasExibidas = ocorrenciasGlobais;
+        
+        if (dInicio) {
+            ocorrenciasExibidas = ocorrenciasExibidas.filter(item => item.data >= dInicio);
+        }
+        if (dFim) {
+            ocorrenciasExibidas = ocorrenciasExibidas.filter(item => item.data <= dFim);
+        }
+        
+        atualizarTela(ocorrenciasExibidas);
+    };
+
+    window.limparFiltro = () => {
+        document.getElementById('filtroDataInicio').value = '';
+        document.getElementById('filtroDataFim').value = '';
+        window.aplicarFiltro();
+    };
+
+    function atualizarTela(dados) {
+        const tbody = document.getElementById('tabelaCorpo');
+        tbody.innerHTML = '';
+        let total = 0;
+        
+        dados.forEach((item) => {
+            total += item.valor;
+            tbody.innerHTML += `<tr>
+                <td>${item.data.split('-').reverse().join('/')}</td>
+                <td><strong>${item.fiscal}</strong></td>
+                <td>${item.setor}</td>
+                <td>${item.sku} - ${item.descricao}</td>
+                <td>R$ ${item.valor.toFixed(2).replace('.', ',')}</td>
+                <td><button class="delete-btn" onclick="window.deletarRegistro('${item.id}')">Excluir</button></td>
+            </tr>`;
+        });
+        
+        document.getElementById('totalItems').innerText = dados.length;
+        document.getElementById('totalValue').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
     }
 
     window.deletarRegistro = async (id) => {
         if(confirm("Excluir registro?")) { await deleteDoc(doc(db, "ocorrencias", id)); }
     };
 
+    // --- PDF AGORA PUXA OS DADOS FILTRADOS ---
     document.getElementById('btn-pdf').addEventListener('click', () => {
-        if(ocorrenciasGlobais.length === 0) return alert("Sem dados.");
+        if(ocorrenciasExibidas.length === 0) return alert("Sem dados para exportar no período selecionado.");
+        
         const dadosSetor = {};
-        ocorrenciasGlobais.forEach(item => { dadosSetor[item.setor] = (dadosSetor[item.setor] || 0) + item.valor; });
+        ocorrenciasExibidas.forEach(item => { dadosSetor[item.setor] = (dadosSetor[item.setor] || 0) + item.valor; });
+        
         const canvas = document.getElementById('graficoSetor');
         const ctx = canvas.getContext('2d');
         if (window.meuGrafico) window.meuGrafico.destroy();
+        
         window.meuGrafico = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -358,19 +422,23 @@
             },
             options: { responsive: false, animation: false, plugins: { legend: { display: false } } }
         });
+        
         setTimeout(() => {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
             pdf.setFontSize(18); pdf.setTextColor(227, 0, 20); pdf.text("RELATÓRIO DE PERDAS - LOJA 482", 14, 20);
+            
             const colunas = ["Data", "Fiscal", "Setor", "SKU / Descrição", "Valor"];
-            const linhas = ocorrenciasGlobais.map(item => [
+            const linhas = ocorrenciasExibidas.map(item => [
                 item.data.split('-').reverse().join('/'),
                 item.fiscal, item.setor, `${item.sku} - ${item.descricao}`,
                 `R$ ${item.valor.toFixed(2).replace('.', ',')}`
             ]);
+            
             pdf.autoTable({ startY: 30, head: [colunas], body: linhas, theme: 'striped', headStyles: { fillColor: [51, 51, 51] } });
             pdf.addPage(); pdf.text("ANÁLISE POR SETOR", 14, 20);
             pdf.addImage(canvas.toDataURL("image/png"), 'PNG', 15, 30, 180, 90);
+            
             pdf.save(`Relatorio_Radar_482.pdf`);
         }, 500);
     });
