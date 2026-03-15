@@ -24,11 +24,40 @@
             padding: 10px; 
             color: var(--dark);
         }
+        
+        /* --- ESTILOS DA TELA DE LOGIN --- */
+        .login-box {
+            max-width: 400px; 
+            margin: 80px auto; 
+            padding: 30px;
+            background: white; 
+            border-radius: 10px;
+            text-align: center; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .login-box h2 { color: var(--primary); margin-top: 0; }
+        .login-box input {
+            width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px;
+            border: 1px solid #ccc; box-sizing: border-box; font-size: 15px;
+        }
+        .btn-entrar {
+            width: 100%; padding: 12px; background: var(--primary); color: white;
+            border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px;
+        }
+        .btn-entrar:hover { background: #cc000d; }
+
+        /* --- ESTILOS DO SISTEMA PRINCIPAL --- */
         .container {
             max-width: 900px; margin: 0 auto; background: white; padding: 15px; 
             border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        h1 { text-align: center; color: var(--primary); margin-bottom: 5px; font-size: 22px; }
+        .header-top {
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px;
+        }
+        .header-top h1 { margin: 0; font-size: 20px; color: var(--primary); }
+        .btn-sair {
+            background-color: var(--dark); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-weight: bold;
+        }
         p.subtitle { text-align: center; color: #777; margin-top: 0; margin-bottom: 20px; font-size: 14px; }
         
         /* Filtro de Relatório */
@@ -64,6 +93,7 @@
             width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;
             box-sizing: border-box; font-size: 14px;
         }
+        input:disabled { background-color: #e9ecef; color: #555; font-weight: bold; }
         
         form button[type="submit"] {
             grid-column: span 2; background-color: var(--primary); color: white; border: none;
@@ -92,19 +122,31 @@
 </head>
 <body>
 
-<div class="container">
-    <h1>Radar de Prevenção - Loja 482</h1>
+<div id="tela-login" class="login-box" style="display: block;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Lojas_Renner_logo.svg/1024px-Lojas_Renner_logo.svg.png" width="120" style="margin-bottom: 15px;" alt="Renner">
+    <h2>Acesso Restrito</h2>
+    <p style="color: #666; font-size: 14px;">Radar de Prevenção - Loja 482</p>
+    
+    <input type="email" id="email-login" placeholder="E-mail de acesso" required>
+    <input type="password" id="senha-login" placeholder="Senha" required>
+    <button id="btn-entrar" class="btn-entrar">Entrar no Sistema</button>
+    <p id="erro-login" style="color: red; display: none; font-weight: bold; margin-top: 15px;">Acesso Negado. Tente novamente.</p>
+</div>
+
+
+<div id="sistema-principal" class="container" style="display: none;">
+    
+    <div class="header-top">
+        <h1>Radar de Prevenção 482</h1>
+        <button id="btn-sair" class="btn-sair">Sair da Conta</button>
+    </div>
+    
     <p class="subtitle">Controle de RFID Violado - Operação</p>
 
     <form id="rfidForm">
         <div>
-            <label>Fiscal Responsável</label>
-            <select id="fiscal" required>
-                <option value="">Selecione...</option>
-                <option value="Johnny">Johnny</option>
-                <option value="Laina">Laina</option>
-                <option value="Leonel">Leonel</option>
-            </select>
+            <label>Fiscal Logado</label>
+            <input type="text" id="fiscalLogado" disabled>
         </div>
         <div>
             <label>Data</label>
@@ -190,9 +232,12 @@
 </div>
 
 <script type="module">
+    // Importações atualizadas com o pacote de Autenticação
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
+    // Suas chaves originais mantidas
     const firebaseConfig = {
       apiKey: "AIzaSyAJrbK-tCGHdrX71zD_xUxmISCZbsESW5I",
       authDomain: "radarloja482.firebaseapp.com",
@@ -204,11 +249,58 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const auth = getAuth(app); // Ligando o motor de senhas
 
     let ocorrenciasGlobais = []; 
     let ocorrenciasExibidas = []; 
     let meuGrafico = null; 
 
+    // --- CONTROLE DE LOGIN ---
+    const telaLogin = document.getElementById('tela-login');
+    const sistemaPrincipal = document.getElementById('sistema-principal');
+    const btnEntrar = document.getElementById('btn-entrar');
+    const btnSair = document.getElementById('btn-sair');
+    const erroLogin = document.getElementById('erro-login');
+    const inputFiscalLogado = document.getElementById('fiscalLogado');
+
+    // Verifica se o usuário está logado
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            telaLogin.style.display = 'none';
+            sistemaPrincipal.style.display = 'block';
+            
+            // Pega o nome do e-mail (Ex: johnny@loja.com vira "Johnny")
+            let nomeExtraido = user.email.split('@')[0];
+            nomeExtraido = nomeExtraido.charAt(0).toUpperCase() + nomeExtraido.slice(1);
+            inputFiscalLogado.value = nomeExtraido; // Preenche o campo travado
+            
+        } else {
+            telaLogin.style.display = 'block';
+            sistemaPrincipal.style.display = 'none';
+        }
+    });
+
+    // Ação do Botão Entrar
+    btnEntrar.addEventListener('click', () => {
+        const email = document.getElementById('email-login').value;
+        const senha = document.getElementById('senha-login').value;
+
+        signInWithEmailAndPassword(auth, email, senha)
+            .then(() => {
+                erroLogin.style.display = 'none';
+                document.getElementById('senha-login').value = ''; 
+            })
+            .catch((error) => {
+                erroLogin.style.display = 'block';
+            });
+    });
+
+    // Ação do Botão Sair
+    btnSair.addEventListener('click', () => {
+        signOut(auth);
+    });
+
+    // --- CÓDIGO ORIGINAL DA APLICAÇÃO ---
     document.getElementById('data').valueAsDate = new Date();
 
     window.formatarMoeda = function(elemento) {
@@ -230,7 +322,7 @@
 
         try {
             await addDoc(collection(db, "ocorrencias"), {
-                fiscal: document.getElementById('fiscal').value, 
+                fiscal: inputFiscalLogado.value, // Puxa o nome automático
                 setor: document.getElementById('setor').value,
                 sku: document.getElementById('sku').value,
                 descricao: document.getElementById('descricao').value,
@@ -240,6 +332,8 @@
             });
             formRfid.reset();
             document.getElementById('data').valueAsDate = new Date();
+            // Mantém o nome preenchido após resetar
+            inputFiscalLogado.value = auth.currentUser.email.split('@')[0].charAt(0).toUpperCase() + auth.currentUser.email.split('@')[0].slice(1);
         } catch (erro) {
             console.error("Erro ao adicionar: ", erro);
             alert("Erro ao salvar! Verifique sua internet.");
@@ -262,9 +356,6 @@
         }
     }
 
-    // ==========================================
-    // SISTEMA DE FILTRO
-    // ==========================================
     window.aplicarFiltro = function() {
         const dInicio = document.getElementById('filtroDataInicio').value;
         const dFim = document.getElementById('filtroDataFim').value;
@@ -309,94 +400,4 @@
             tbody.appendChild(tr);
         });
 
-        document.getElementById('totalItems').innerText = ocorrenciasExibidas.length;
-        document.getElementById('totalValue').innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
-        atualizarGrafico();
-    }
-
-    function atualizarGrafico() {
-        if (ocorrenciasExibidas.length === 0) {
-            if(meuGrafico) meuGrafico.destroy();
-            return;
-        }
-        const valoresPorSetor = {};
-        ocorrenciasExibidas.forEach(item => {
-            if (!valoresPorSetor[item.setor]) valoresPorSetor[item.setor] = 0;
-            valoresPorSetor[item.setor] += item.valor;
-        });
-
-        const labels = Object.keys(valoresPorSetor);
-        const data = Object.values(valoresPorSetor);
-
-        if (meuGrafico) meuGrafico.destroy();
-
-        const ctx = document.getElementById('graficoSetor').getContext('2d');
-        Chart.register({
-            id: 'fundoBranco',
-            beforeDraw: (chart) => {
-                const {ctx} = chart;
-                ctx.save(); ctx.fillStyle = 'white'; ctx.fillRect(0, 0, chart.width, chart.height); ctx.restore();
-            }
-        });
-
-        meuGrafico = new Chart(ctx, {
-            type: 'bar',
-            data: { labels: labels, datasets: [{ label: 'Prejuízo Mapeado (R$)', data: data, backgroundColor: '#E30014', borderRadius: 4 }] },
-            options: { responsive: false, animation: false, plugins: { legend: { display: false }, title: { display: true, text: 'Valores por Setor', font: { size: 16 } } } }
-        });
-    }
-
-    window.exportarPDF = function() {
-        if (ocorrenciasExibidas.length === 0) { alert("Não há dados no período para exportar!"); return; }
-
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-
-        doc.setFontSize(18); doc.setTextColor(227, 0, 20); doc.text("Radar de Prevenção - Loja 482", 14, 20);
-        
-        doc.setFontSize(11); doc.setTextColor(100);
-        const hoje = new Date(); const dataEmissao = `${hoje.getDate().toString().padStart(2, '0')}/${(hoje.getMonth() + 1).toString().padStart(2, '0')}/${hoje.getFullYear()}`;
-        doc.text(`Relatório Analítico de Ocorrências - Emitido em: ${dataEmissao}`, 14, 28);
-
-        let textoPeriodo = "Período Analisado: Todo o histórico";
-        const dInicio = document.getElementById('filtroDataInicio').value;
-        const dFim = document.getElementById('filtroDataFim').value;
-        
-        if(dInicio || dFim) {
-            let inicioBR = dInicio ? dInicio.split('-').reverse().join('/') : 'Início';
-            let fimBR = dFim ? dFim.split('-').reverse().join('/') : 'Hoje';
-            textoPeriodo = `Período Analisado: ${inicioBR} até ${fimBR}`;
-        }
-        
-        doc.setFontSize(10); doc.setTextColor(0);
-        doc.text(textoPeriodo, 14, 34);
-
-        const colunas = ["Data", "Fiscal", "Setor", "SKU / Descrição", "Valor"];
-        const linhas = []; let totalValor = 0;
-
-        ocorrenciasExibidas.forEach(item => {
-            let dataParts = item.data.split('-');
-            let dataBR = `${dataParts[2]}/${dataParts[1]}/${dataParts[0]}`;
-            let valorBR = `R$ ${item.valor.toFixed(2).replace('.', ',')}`;
-            totalValor += item.valor;
-            linhas.push([dataBR, item.fiscal, item.setor, `${item.sku} - ${item.descricao}`, valorBR]);
-        });
-
-        doc.autoTable({ startY: 40, head: [colunas], body: linhas, theme: 'striped', headStyles: { fillColor: [51, 51, 51] }, styles: { fontSize: 9 } });
-
-        let posicaoFinalY = doc.lastAutoTable.finalY || 40;
-        doc.setFontSize(12); doc.setTextColor(0); doc.setFont("helvetica", "bold");
-        doc.text(`Total de Peças Mapeadas: ${ocorrenciasExibidas.length}`, 14, posicaoFinalY + 10);
-        doc.text(`Prejuízo Total no Período: R$ ${totalValor.toFixed(2).replace('.', ',')}`, 14, posicaoFinalY + 18);
-
-        const canvasElement = document.getElementById('graficoSetor');
-        if (canvasElement) {
-            doc.addPage(); doc.setFontSize(16); doc.setTextColor(227, 0, 20); doc.text("Análise Gráfica - Valores por Setor", 14, 20);
-            const imgData = canvasElement.toDataURL("image/png", 1.0); doc.addImage(imgData, 'PNG', 14, 30, 180, 90);
-        }
-        doc.save("Relatorio_Perdas_Loja482.pdf");
-    }
-</script>
-
-</body>
-</html>
+        document.getElementById('
