@@ -400,4 +400,94 @@
             tbody.appendChild(tr);
         });
 
-        document.getElementById('
+        document.getElementById('totalItems').innerText = ocorrenciasExibidas.length;
+        document.getElementById('totalValue').innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
+        atualizarGrafico();
+    }
+
+    function atualizarGrafico() {
+        if (ocorrenciasExibidas.length === 0) {
+            if(meuGrafico) meuGrafico.destroy();
+            return;
+        }
+        const valoresPorSetor = {};
+        ocorrenciasExibidas.forEach(item => {
+            if (!valoresPorSetor[item.setor]) valoresPorSetor[item.setor] = 0;
+            valoresPorSetor[item.setor] += item.valor;
+        });
+
+        const labels = Object.keys(valoresPorSetor);
+        const data = Object.values(valoresPorSetor);
+
+        if (meuGrafico) meuGrafico.destroy();
+
+        const ctx = document.getElementById('graficoSetor').getContext('2d');
+        Chart.register({
+            id: 'fundoBranco',
+            beforeDraw: (chart) => {
+                const {ctx} = chart;
+                ctx.save(); ctx.fillStyle = 'white'; ctx.fillRect(0, 0, chart.width, chart.height); ctx.restore();
+            }
+        });
+
+        meuGrafico = new Chart(ctx, {
+            type: 'bar',
+            data: { labels: labels, datasets: [{ label: 'Prejuízo Mapeado (R$)', data: data, backgroundColor: '#E30014', borderRadius: 4 }] },
+            options: { responsive: false, animation: false, plugins: { legend: { display: false }, title: { display: true, text: 'Valores por Setor', font: { size: 16 } } } }
+        });
+    }
+
+    window.exportarPDF = function() {
+        if (ocorrenciasExibidas.length === 0) { alert("Não há dados no período para exportar!"); return; }
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.setFontSize(18); doc.setTextColor(227, 0, 20); doc.text("Radar de Prevenção - Loja 482", 14, 20);
+        
+        doc.setFontSize(11); doc.setTextColor(100);
+        const hoje = new Date(); const dataEmissao = `${hoje.getDate().toString().padStart(2, '0')}/${(hoje.getMonth() + 1).toString().padStart(2, '0')}/${hoje.getFullYear()}`;
+        doc.text(`Relatório Analítico de Ocorrências - Emitido em: ${dataEmissao}`, 14, 28);
+
+        let textoPeriodo = "Período Analisado: Todo o histórico";
+        const dInicio = document.getElementById('filtroDataInicio').value;
+        const dFim = document.getElementById('filtroDataFim').value;
+        
+        if(dInicio || dFim) {
+            let inicioBR = dInicio ? dInicio.split('-').reverse().join('/') : 'Início';
+            let fimBR = dFim ? dFim.split('-').reverse().join('/') : 'Hoje';
+            textoPeriodo = `Período Analisado: ${inicioBR} até ${fimBR}`;
+        }
+        
+        doc.setFontSize(10); doc.setTextColor(0);
+        doc.text(textoPeriodo, 14, 34);
+
+        const colunas = ["Data", "Fiscal", "Setor", "SKU / Descrição", "Valor"];
+        const linhas = []; let totalValor = 0;
+
+        ocorrenciasExibidas.forEach(item => {
+            let dataParts = item.data.split('-');
+            let dataBR = `${dataParts[2]}/${dataParts[1]}/${dataParts[0]}`;
+            let valorBR = `R$ ${item.valor.toFixed(2).replace('.', ',')}`;
+            totalValor += item.valor;
+            linhas.push([dataBR, item.fiscal, item.setor, `${item.sku} - ${item.descricao}`, valorBR]);
+        });
+
+        doc.autoTable({ startY: 40, head: [colunas], body: linhas, theme: 'striped', headStyles: { fillColor: [51, 51, 51] }, styles: { fontSize: 9 } });
+
+        let posicaoFinalY = doc.lastAutoTable.finalY || 40;
+        doc.setFontSize(12); doc.setTextColor(0); doc.setFont("helvetica", "bold");
+        doc.text(`Total de Peças Mapeadas: ${ocorrenciasExibidas.length}`, 14, posicaoFinalY + 10);
+        doc.text(`Prejuízo Total no Período: R$ ${totalValor.toFixed(2).replace('.', ',')}`, 14, posicaoFinalY + 18);
+
+        const canvasElement = document.getElementById('graficoSetor');
+        if (canvasElement) {
+            doc.addPage(); doc.setFontSize(16); doc.setTextColor(227, 0, 20); doc.text("Análise Gráfica - Valores por Setor", 14, 20);
+            const imgData = canvasElement.toDataURL("image/png", 1.0); doc.addImage(imgData, 'PNG', 14, 30, 180, 90);
+        }
+        doc.save("Relatorio_Perdas_Loja482.pdf");
+    }
+</script>
+
+</body>
+</html>
