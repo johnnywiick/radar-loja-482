@@ -16,143 +16,165 @@
             --dark: #333333;
             --light: #F8F9FA;
             --success: #28A745;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #ECECEC;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
             margin: 0;
             padding: 10px; 
             color: var(--dark);
+            min-height: 100vh;
         }
         
-        /* --- ESTILOS DA TELA DE LOGIN --- */
         .login-box {
             max-width: 400px; 
             margin: 80px auto; 
-            padding: 30px;
+            padding: 40px 30px;
             background: white; 
-            border-radius: 10px;
+            border-radius: 15px;
             text-align: center; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
-        .login-box h2 { color: var(--primary); margin-top: 0; }
+        .logo-text {
+            color: var(--primary);
+            font-weight: 900;
+            font-size: 32px;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .login-box h2 { color: var(--dark); margin-top: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
         .login-box input {
-            width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px;
-            border: 1px solid #ccc; box-sizing: border-box; font-size: 15px;
+            width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px;
+            border: 1px solid #ddd; box-sizing: border-box; font-size: 15px;
         }
         .btn-entrar {
-            width: 100%; padding: 12px; background: var(--primary); color: white;
-            border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px;
+            width: 100%; padding: 14px; background: var(--primary); color: white;
+            border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 15px;
         }
         .btn-entrar:disabled { background: #999; }
 
-        /* --- ESTILOS DO SISTEMA PRINCIPAL --- */
         .container {
-            max-width: 900px; margin: 0 auto; background: white; padding: 15px; 
-            border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 900px; margin: 20px auto; background: white; padding: 20px; 
+            border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
         .header-top {
-            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 20px;
         }
-        .header-top h1 { margin: 0; font-size: 20px; color: var(--primary); }
+        .header-info h1 { margin: 0; font-size: 22px; color: var(--primary); }
+        .header-info p { margin: 5px 0 0 0; font-size: 14px; color: #666; font-weight: 600; }
+        
         .btn-sair {
-            background-color: var(--dark); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-weight: bold;
+            background-color: var(--dark); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px;
         }
-        p.subtitle { text-align: center; color: #777; margin-top: 0; margin-bottom: 20px; font-size: 14px; }
+        
+        p.subtitle { text-align: center; color: #888; margin-top: 0; margin-bottom: 25px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
         
         .filter-box {
-            background: var(--light); padding: 15px; border-radius: 8px;
-            margin-bottom: 20px; border: 1px solid #ddd;
+            background: var(--light); padding: 15px; border-radius: 10px;
+            margin-bottom: 25px; border: 1px solid #eee;
         }
-        .filter-box h3 { margin-top: 0; margin-bottom: 10px; font-size: 14px; color: var(--primary); }
+        .filter-box h3 { margin-top: 0; margin-bottom: 12px; font-size: 14px; color: var(--primary); text-transform: uppercase; }
         .filter-grid {
             display: grid; grid-template-columns: 1fr 1fr auto auto; gap: 10px; align-items: end;
         }
-        .btn-filter { background-color: var(--dark); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;}
-        .btn-clear { background-color: #777; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;}
+        .btn-filter { background-color: var(--dark); color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: bold;}
+        .btn-clear { background-color: #999; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: bold;}
 
-        .dashboard { display: flex; gap: 10px; margin-bottom: 20px; }
+        .dashboard { display: flex; gap: 15px; margin-bottom: 25px; }
         .card {
-            flex: 1; background: var(--light); padding: 12px; border-radius: 8px;
-            text-align: center; border-left: 5px solid var(--primary);
+            flex: 1; background: #fff; padding: 15px; border-radius: 10px;
+            text-align: center; border: 1px solid #eee; border-top: 4px solid var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .card.green { border-left-color: var(--success); }
-        .card h3 { margin: 0; font-size: 13px; color: #555; }
-        .card p { margin: 8px 0 0 0; font-size: 20px; font-weight: bold; }
+        .card.green { border-top-color: var(--success); }
+        .card h3 { margin: 0; font-size: 12px; color: #888; text-transform: uppercase; }
+        .card p { margin: 10px 0 0 0; font-size: 24px; font-weight: bold; color: var(--dark); }
         
         .chart-hidden { position: absolute; left: -9999px; top: 0; width: 600px; height: 300px; }
 
         form {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--light);
-            padding: 15px; border-radius: 8px; margin-bottom: 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: var(--light);
+            padding: 20px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #eee;
         }
         .full-width { grid-column: span 2; }
-        label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 3px; }
+        label { font-size: 12px; font-weight: bold; display: block; margin-bottom: 5px; color: #555; text-transform: uppercase; }
         input, select {
-            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;
-            box-sizing: border-box; font-size: 14px;
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px;
+            box-sizing: border-box; font-size: 14px; background: #fff;
         }
-        input:disabled { background-color: #e9ecef; color: #555; font-weight: bold; }
+        input:disabled { background-color: #f0f0f0; color: #333; font-weight: bold; border: 1px solid #ddd; }
         
         form button[type="submit"] {
             grid-column: span 2; background-color: var(--primary); color: white; border: none;
-            padding: 12px; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer;
+            padding: 15px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px;
         }
 
-        .table-container { width: 100%; overflow-x: auto; margin-top: 10px; }
+        .table-container { width: 100%; overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid #eee; }
         table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; font-size: 13px; }
-        th { background-color: var(--dark); color: white; }
-        td button.delete-btn { background-color: #ff4d4d; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+        th { background-color: #f8f9fa; color: #666; font-weight: bold; text-transform: uppercase; font-size: 11px; }
+        td strong { color: var(--primary); }
+        td button.delete-btn { background-color: #fff; color: #ff4d4d; border: 1px solid #ff4d4d; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
 
         .pdf-btn { 
-            background-color: var(--dark); margin-top: 25px; width: 100%; padding: 15px; font-size: 16px; 
-            color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;
+            background-color: var(--dark); margin-top: 30px; width: 100%; padding: 16px; font-size: 15px; 
+            color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
         }
 
         @media (max-width: 600px) {
-            .dashboard { flex-direction: column; gap: 8px; }
+            .dashboard { flex-direction: column; gap: 10px; }
             form { grid-template-columns: 1fr; } 
             .full-width, form button[type="submit"] { grid-column: span 1; }
-            .filter-grid { grid-template-columns: 1fr 1fr; }
-            .btn-filter, .btn-clear { grid-column: span 1; width: 100%; padding: 12px;}
+            .filter-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
 <div id="tela-login" class="login-box" style="display: block;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Lojas_Renner_logo.svg/1024px-Lojas_Renner_logo.svg.png" width="120" style="margin-bottom: 15px;" alt="Renner">
-    <h2>Acesso Restrito</h2>
-    <p style="color: #666; font-size: 14px;">Radar de Prevenção - Loja 482</p>
+    <div style="margin-bottom: 25px;">
+        <svg width="160" height="40" viewBox="0 0 300 60" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="45" font-family="Arial Black, sans-serif" font-size="45" fill="#E30014" style="font-weight: 900; letter-spacing: -2px;">RENNER</text>
+        </svg>
+    </div>
     
-    <input type="email" id="email-login" placeholder="E-mail de acesso" required>
+    <h2>Acesso ao Radar</h2>
+    <p style="color: #888; font-size: 13px; margin-bottom: 25px;">Prevenção de Perdas - Loja 482</p>
+    
+    <input type="email" id="email-login" placeholder="E-mail" required>
     <input type="password" id="senha-login" placeholder="Senha" required>
-    <button id="btn-entrar" class="btn-entrar">Entrar no Sistema</button>
-    <p id="erro-login" style="color: red; display: none; font-weight: bold; margin-top: 15px; font-size: 12px;"></p>
+    <button id="btn-entrar" class="btn-entrar">Acessar Sistema</button>
+    <p id="erro-login" style="color: var(--primary); display: none; font-weight: bold; margin-top: 15px; font-size: 13px;"></p>
 </div>
 
 <div id="sistema-principal" class="container" style="display: none;">
     <div class="header-top">
-        <h1>Radar de Prevenção 482</h1>
-        <button id="btn-sair" class="btn-sair">Sair da Conta</button>
+        <div class="header-info">
+            <h1>Radar de Prevenção 482</h1>
+            <p id="txt-boas-vindas">Bem-vindo!</p>
+        </div>
+        <button id="btn-sair" class="btn-sair">Sair do Radar</button>
     </div>
     
-    <p class="subtitle">Controle de RFID Violado - Operação</p>
+    <p class="subtitle">Monitoramento de RFID Violado</p>
 
     <form id="rfidForm">
         <div>
-            <label>Fiscal Logado</label>
+            <label>Fiscal em Operação</label>
             <input type="text" id="fiscalLogado" disabled>
         </div>
         <div>
-            <label>Data</label>
+            <label>Data do Registro</label>
             <input type="date" id="data" required>
         </div>
         <div class="full-width">
-            <label>Setor/Localização</label>
+            <label>Setor da Ocorrência</label>
             <select id="setor" required>
-                <option value="">Selecione...</option>
+                <option value="">Selecione o local...</option>
                 <option value="Provador Feminino">Provador Feminino</option>
                 <option value="Provador Masculino">Provador Masculino</option>
                 <option value="Salão de Vendas">Salão de Vendas</option>
@@ -162,42 +184,42 @@
         </div>
         <div>
             <label>Código SKU</label>
-            <input type="number" id="sku" placeholder="Ex: 552664497" required>
+            <input type="number" id="sku" placeholder="000000000" required>
         </div>
         <div>
-            <label>Valor (R$)</label>
+            <label>Valor da Peça (R$)</label>
             <input type="text" id="valor" placeholder="0,00" oninput="formatarMoeda(this)" required>
         </div>
         <div class="full-width">
-            <label>Descrição da Peça</label>
-            <input type="text" id="descricao" placeholder="Ex: Calça Denim J" required>
+            <label>Descrição Detalhada</label>
+            <input type="text" id="descricao" placeholder="Ex: Camiseta Básica Preta M" required>
         </div>
-        <button type="submit">Registrar Ocorrência</button>
+        <button type="submit">Registrar Perda Mapeada</button>
     </form>
 
     <div class="filter-box">
-        <h3>📅 Extrair Relatório por Período</h3>
+        <h3>📅 Filtro Analítico</h3>
         <div class="filter-grid">
             <div>
-                <label>Data Inicial</label>
+                <label>Início</label>
                 <input type="date" id="filtroDataInicio">
             </div>
             <div>
-                <label>Data Final</label>
+                <label>Fim</label>
                 <input type="date" id="filtroDataFim">
             </div>
-            <button type="button" class="btn-filter" onclick="aplicarFiltro()">Filtrar Dados</button>
+            <button type="button" class="btn-filter" onclick="aplicarFiltro()">Filtrar</button>
             <button type="button" class="btn-clear" onclick="limparFiltro()">Limpar</button>
         </div>
     </div>
 
     <div class="dashboard">
         <div class="card">
-            <h3>Total no Período</h3>
+            <h3>Peças no Período</h3>
             <p id="totalItems">0</p>
         </div>
         <div class="card green">
-            <h3>Prejuízo Mapeado (R$)</h3>
+            <h3>Valor Acumulado</h3>
             <p id="totalValue">R$ 0,00</p>
         </div>
     </div>
@@ -206,7 +228,7 @@
         <canvas id="graficoSetor"></canvas>
     </div>
 
-    <h3>Ocorrências do Período</h3>
+    <h3 style="font-size: 14px; text-transform: uppercase; color: #666;">Histórico Recente</h3>
     <div class="table-container">
         <table>
             <thead>
@@ -223,7 +245,7 @@
         </table>
     </div>
 
-    <button type="button" onclick="exportarPDF()" class="pdf-btn">📄 Exportar PDF do Período</button>
+    <button type="button" onclick="exportarPDF()" class="pdf-btn">📄 Gerar Relatório Analítico (PDF)</button>
 </div>
 
 <script type="module">
@@ -244,16 +266,11 @@
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    let ocorrenciasGlobais = []; 
-    let ocorrenciasExibidas = []; 
-    let meuGrafico = null; 
-
     const telaLogin = document.getElementById('tela-login');
     const sistemaPrincipal = document.getElementById('sistema-principal');
     const btnEntrar = document.getElementById('btn-entrar');
-    const btnSair = document.getElementById('btn-sair');
-    const erroLogin = document.getElementById('erro-login');
     const inputFiscalLogado = document.getElementById('fiscalLogado');
+    const txtBoasVindas = document.getElementById('txt-boas-vindas');
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -262,6 +279,7 @@
             let nomeExtraido = user.email.split('@')[0];
             nomeExtraido = nomeExtraido.charAt(0).toUpperCase() + nomeExtraido.slice(1);
             inputFiscalLogado.value = nomeExtraido;
+            txtBoasVindas.innerText = "Olá, " + nomeExtraido + "!";
         } else {
             telaLogin.style.display = 'block';
             sistemaPrincipal.style.display = 'none';
@@ -271,166 +289,74 @@
     btnEntrar.addEventListener('click', () => {
         const email = document.getElementById('email-login').value;
         const senha = document.getElementById('senha-login').value;
-        
-        btnEntrar.disabled = true;
         btnEntrar.innerText = "Carregando...";
-        erroLogin.style.display = 'none';
-
         signInWithEmailAndPassword(auth, email, senha)
-            .then(() => {
-                btnEntrar.disabled = false;
-                btnEntrar.innerText = "Entrar no Sistema";
-                document.getElementById('senha-login').value = ''; 
-            })
-            .catch((error) => {
-                btnEntrar.disabled = false;
-                btnEntrar.innerText = "Entrar no Sistema";
-                erroLogin.style.display = 'block';
-                // Mostra o código do erro para depurarmos
-                erroLogin.innerText = "Erro: " + error.code;
-                console.error("Erro Firebase:", error);
+            .catch(() => {
+                btnEntrar.innerText = "Acessar Sistema";
+                document.getElementById('erro-login').style.display = 'block';
+                document.getElementById('erro-login').innerText = "Dados inválidos!";
             });
     });
 
-    btnSair.addEventListener('click', () => { signOut(auth); });
-
-    document.getElementById('data').valueAsDate = new Date();
+    document.getElementById('btn-sair').addEventListener('click', () => { signOut(auth); });
 
     window.formatarMoeda = function(elemento) {
         let valor = elemento.value.replace(/\D/g, ""); 
-        if (valor === "") { elemento.value = ""; return; }
+        if (valor === "") return;
         valor = (parseInt(valor, 10) / 100).toFixed(2);
-        valor = valor.replace(".", ",");
-        valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-        elemento.value = valor;
+        elemento.value = valor.replace(".", ",").replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
     }
 
     const formRfid = document.getElementById('rfidForm');
     formRfid.addEventListener('submit', async function(e) {
         e.preventDefault();
-        let valorTexto = document.getElementById('valor').value;
-        let valorLimpo = valorTexto.replace(/\./g, "").replace(",", ".");
-        let valorFloat = parseFloat(valorLimpo);
-
+        let valorLimpo = document.getElementById('valor').value.replace(/\./g, "").replace(",", ".");
+        
         try {
             await addDoc(collection(db, "ocorrencias"), {
                 fiscal: inputFiscalLogado.value,
                 setor: document.getElementById('setor').value,
                 sku: document.getElementById('sku').value,
                 descricao: document.getElementById('descricao').value,
-                valor: valorFloat,
+                valor: parseFloat(valorLimpo),
                 data: document.getElementById('data').value,
                 timestamp: Date.now() 
             });
-            formRfid.reset();
-            document.getElementById('data').valueAsDate = new Date();
-            inputFiscalLogado.value = auth.currentUser.email.split('@')[0].charAt(0).toUpperCase() + auth.currentUser.email.split('@')[0].slice(1);
+            // FORÇA A ATUALIZAÇÃO DA PÁGINA PARA O USUÁRIO VER O DADO NOVO
+            window.location.reload();
         } catch (erro) {
-            alert("Erro ao salvar! Verifique sua conexão.");
+            alert("Erro ao salvar.");
         }
     });
 
     const q = query(collection(db, "ocorrencias"), orderBy("data", "desc"));
     onSnapshot(q, (querySnapshot) => {
-        ocorrenciasGlobais = []; 
-        querySnapshot.forEach((doc) => { ocorrenciasGlobais.push({ id: doc.id, ...doc.data() }); });
-        window.aplicarFiltro(); 
-    });
-
-    window.deletar = async function(id) {
-        if(confirm("Deseja apagar este registro?")) {
-            try { await deleteDoc(doc(db, "ocorrencias", id)); } 
-            catch(erro) { console.error(erro); }
-        }
-    }
-
-    window.aplicarFiltro = function() {
-        const dInicio = document.getElementById('filtroDataInicio').value;
-        const dFim = document.getElementById('filtroDataFim').value;
-        if (dInicio && dFim) {
-            ocorrenciasExibidas = ocorrenciasGlobais.filter(item => item.data >= dInicio && item.data <= dFim);
-        } else if (dInicio) {
-            ocorrenciasExibidas = ocorrenciasGlobais.filter(item => item.data >= dInicio);
-        } else if (dFim) {
-            ocorrenciasExibidas = ocorrenciasGlobais.filter(item => item.data <= dFim);
-        } else {
-            ocorrenciasExibidas = [...ocorrenciasGlobais]; 
-        }
-        atualizarTela();
-    }
-
-    window.limparFiltro = function() {
-        document.getElementById('filtroDataInicio').value = '';
-        document.getElementById('filtroDataFim').value = '';
-        window.aplicarFiltro();
-    }
-
-    function atualizarTela() {
+        let ocorrencias = [];
+        querySnapshot.forEach((doc) => { ocorrencias.push({ id: doc.id, ...doc.data() }); });
+        
         const tbody = document.getElementById('tabelaCorpo');
         tbody.innerHTML = '';
-        let totalValor = 0;
-        ocorrenciasExibidas.forEach(item => {
-            totalValor += item.valor;
-            const dataParts = item.data.split('-');
-            const dataBR = `${dataParts[2]}/${dataParts[1]}/${dataParts[0]}`;
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${dataBR}</td>
+        let total = 0;
+        ocorrencias.forEach(item => {
+            total += item.valor;
+            tbody.innerHTML += `<tr>
+                <td>${item.data.split('-').reverse().join('/')}</td>
                 <td><strong>${item.fiscal}</strong></td>
                 <td>${item.setor}</td>
                 <td>${item.sku} - ${item.descricao}</td>
                 <td>R$ ${item.valor.toFixed(2).replace('.', ',')}</td>
-                <td><button class="delete-btn" onclick="deletar('${item.id}')">X</button></td>
-            `;
-            tbody.appendChild(tr);
+                <td><button class="delete-btn" onclick="deletar('${item.id}')">Excluir</button></td>
+            </tr>`;
         });
-        document.getElementById('totalItems').innerText = ocorrenciasExibidas.length;
-        document.getElementById('totalValue').innerText = `R$ ${totalValor.toFixed(2).replace('.', ',')}`;
-        atualizarGrafico();
-    }
+        document.getElementById('totalItems').innerText = ocorrencias.length;
+        document.getElementById('totalValue').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    });
 
-    function atualizarGrafico() {
-        if (ocorrenciasExibidas.length === 0) {
-            if(meuGrafico) meuGrafico.destroy();
-            return;
+    window.deletar = async function(id) {
+        if(confirm("Excluir registro?")) {
+            await deleteDoc(doc(db, "ocorrencias", id));
+            window.location.reload();
         }
-        const valoresPorSetor = {};
-        ocorrenciasExibidas.forEach(item => {
-            if (!valoresPorSetor[item.setor]) valoresPorSetor[item.setor] = 0;
-            valoresPorSetor[item.setor] += item.valor;
-        });
-        const labels = Object.keys(valoresPorSetor);
-        const data = Object.values(valoresPorSetor);
-        if (meuGrafico) meuGrafico.destroy();
-        const ctx = document.getElementById('graficoSetor').getContext('2d');
-        Chart.register({
-            id: 'fundoBranco',
-            beforeDraw: (chart) => {
-                const {ctx} = chart;
-                ctx.save(); ctx.fillStyle = 'white'; ctx.fillRect(0, 0, chart.width, chart.height); ctx.restore();
-            }
-        });
-        meuGrafico = new Chart(ctx, {
-            type: 'bar',
-            data: { labels: labels, datasets: [{ label: 'Prejuízo (R$)', data: data, backgroundColor: '#E30014', borderRadius: 4 }] },
-            options: { responsive: false, animation: false, plugins: { legend: { display: false } } }
-        });
-    }
-
-    window.exportarPDF = function() {
-        if (ocorrenciasExibidas.length === 0) { alert("Sem dados!"); return; }
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        doc.setFontSize(18); doc.setTextColor(227, 0, 20); doc.text("Radar de Prevenção - Loja 482", 14, 20);
-        const colunas = ["Data", "Fiscal", "Setor", "SKU / Descrição", "Valor"];
-        const linhas = [];
-        ocorrenciasExibidas.forEach(item => {
-            let dataBR = item.data.split('-').reverse().join('/');
-            let valorBR = `R$ ${item.valor.toFixed(2).replace('.', ',')}`;
-            linhas.push([dataBR, item.fiscal, item.setor, `${item.sku} - ${item.descricao}`, valorBR]);
-        });
-        doc.autoTable({ startY: 40, head: [colunas], body: linhas, theme: 'striped', headStyles: { fillColor: [51, 51, 51] } });
-        doc.save("Relatorio_Perdas_482.pdf");
     }
 </script>
 </body>
