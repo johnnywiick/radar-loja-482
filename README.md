@@ -25,3 +25,5 @@ O sistema foi desenhado para ser intuitivo. Basta o fiscal acessar o link da apl
 
 ---
 *Desenvolvido por Johnny - Prevenção de Perdas*
+
+![Screenshot_20260325_100200_Samsung Internet](https://github.com/user-attachments/assets/1ab920f2-2064-4d54-9e89-50dbbde65c6a)
